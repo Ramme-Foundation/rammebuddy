@@ -16,6 +16,7 @@ const connectToDb = async () => {
 }
 
 const start = async () => {
+  logger.info(`Starting in mode: ${process.env.NODE_ENV}`)
   const db = await connectToDb()
   const rammeRepo = createRepository<Ramme>(db)
   const app = express()
@@ -47,6 +48,8 @@ const start = async () => {
   })
 
   app.listen(process.env.APP_PORT)
+
+  logger.info(`(APP) Listening at port ${process.env.APP_PORT}`)
 }
 
 start()

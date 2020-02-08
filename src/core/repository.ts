@@ -20,7 +20,7 @@ export type Event<T> = {
 }
 
 export const createRepository = <T>(dbConn: Pool) => {
-  logger.info('Creating repository interface')
+  logger.info(`(DB) Initiating repository interface`)
   return {
     save: saveFn(dbConn),
     get: getFn(dbConn),
