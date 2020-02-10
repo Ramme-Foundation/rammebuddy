@@ -1,18 +1,14 @@
-import { AggregateId, Repository, Event } from '../core'
+import { Event } from '../core'
 import { Ramme, RammeEvents } from '.'
 import { logger } from '../utils/logger'
 
 const isEmptyObj = (obj: any) =>
   Object.entries(obj).length === 0 && obj.constructor === Object
 
-export const rammeReducer = (repository: Repository<Ramme>) => async (
-  rammeId: AggregateId,
-) => {
-  const eventsForId = await repository.get<Ramme>(rammeId)
-
+export const reduceRamme = (events: Event<Ramme>[]) => {
   let ramme: Partial<Ramme> = {}
 
-  eventsForId.forEach((e: Event<Ramme>) => {
+  events.forEach((e: Event<Ramme>) => {
     const event = e.event
     switch (event) {
       case RammeEvents.RammeAdded: {

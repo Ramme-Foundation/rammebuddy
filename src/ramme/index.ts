@@ -1,7 +1,7 @@
 export * from './addRammeHandler'
 export * from './getByWeekHandler'
 export * from './commandParser'
-export * from './rammeReducer'
+export * from './reduceRamme'
 
 export type Ramme = {
   activity: string
