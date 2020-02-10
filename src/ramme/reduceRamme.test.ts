@@ -10,6 +10,7 @@ describe('Ramme reducer', () => {
     mockEventArray = [
       {
         id: '123',
+        version: 0,
         event: 'RAMME_ADDED',
         data: {
           activity: 'testpass',
@@ -25,6 +26,7 @@ describe('Ramme reducer', () => {
     mockEventArray = [
       {
         id: '123',
+        version: 0,
         event: 'RAMME_ADDED',
         data: {
           activity: 'testpass',
@@ -32,6 +34,7 @@ describe('Ramme reducer', () => {
       },
       {
         id: '123',
+        version: 1,
         event: 'RAMME_ACTIVITY_EDITED',
         data: {
           activity: 'edited testpass',
@@ -47,6 +50,7 @@ describe('Ramme reducer', () => {
     mockEventArray = [
       {
         id: '123',
+        version: 0,
         event: 'RAMME_ADDED',
         data: {
           activity: 'testpass',
@@ -54,6 +58,7 @@ describe('Ramme reducer', () => {
       },
       {
         id: '123',
+        version: 1,
         event: 'RAMME_ACTIVITY_EDITED',
         data: {
           activity: 'edited testpass',
@@ -61,6 +66,7 @@ describe('Ramme reducer', () => {
       },
       {
         id: '123',
+        version: 2,
         event: 'RAMME_ACTIVITY_EDITED',
         data: {
           activity: 'edited testpass final',
@@ -77,18 +83,21 @@ describe('Ramme reducer', () => {
       {
         id: '123',
         event: 'RAMME_ADDED',
+        version: 0,
         data: {
           activity: 'testpass',
         },
       },
       {
         id: '123',
+        version: 1,
         event: 'RAMME_ACTIVITY_EDITED',
         data: {
           activity: 'edited testpass',
         },
       },
       {
+        version: 2,
         id: '123',
         event: 'RAMME_ARCHIVED',
       },

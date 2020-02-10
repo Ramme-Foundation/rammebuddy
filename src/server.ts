@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { logger } from './utils/logger'
 import { createRepository } from './core/repository'
-import { Ramme, addRammeHandler, commandParser, rammeReducer } from './ramme'
+import { Ramme, addRammeHandler, commandParser } from './ramme'
 import { getByWeekHandler } from './ramme/getByWeekHandler'
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -20,7 +20,6 @@ const start = async () => {
   const db = await connectToDb()
   const rammeRepo = createRepository<Ramme>(db)
   const app = express()
-  const reducer = rammeReducer(rammeRepo)
 
   app.use(bodyParser.json())
 
