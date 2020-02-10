@@ -4,8 +4,14 @@ describe('command parser', () => {
   const parser = commandParser
 
   describe('unhappy case', () => {
-    it('should return undefined if message does not start with /ramme', () => {
+    it('should return undefined if message is just one word (cannot be ramme command)', () => {
       const incoming = 'hejhopp'
+      const command = parser(incoming)
+      expect(command).toBeUndefined()
+    })
+
+    it('should return undefined if message is multiple words does not start with /ramme', () => {
+      const incoming = 'hejhopp log'
       const command = parser(incoming)
       expect(command).toBeUndefined()
     })
