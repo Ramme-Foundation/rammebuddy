@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 import { logger } from '../utils/logger'
 
 export type Repository<T> = {
-  save: (incoming: Event<T>) => Promise<string>
+  save: (incoming: Event<T>) => Promise<AggregateId>
   get: (id: string) => Promise<Event<T>[]>
   getByWeek: (week: number) => Promise<Event<T>[]>
   getByCommitter: (committer: string, week?: number) => Promise<Event<T>[]>
@@ -42,7 +42,7 @@ const saveFn = <T>(dbConn: Pool) => async (incoming: Event<T>) => {
       RETURNING id`,
       [id, timestamp, version, week, event, committer, data],
     )
-    return saveResultId.rows[0].id
+    return saveResultId.rows[0].id as AggregateId
   } catch (e) {
     return Promise.reject(e)
   }
