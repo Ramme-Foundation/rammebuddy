@@ -24,7 +24,7 @@ export const getByWeekHandler = async (
   repository: Repository<Ramme>,
 ) => {
   const week = getWeekInMessage(req.body.text) || getCurrentWeekNumber()
-  const eventRows = await repository.getByWeek<Ramme>(week)
+  const eventRows = await repository.getByWeek(week)
 
   res.send(eventRows)
 }

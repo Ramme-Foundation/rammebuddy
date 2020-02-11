@@ -44,8 +44,8 @@ export const addRammeHandler = async (
   }
 
   try {
-    const result = await repository.save(ramme)
-    const response = `aktivitet "${activity}" loggad i vecka ${week} med ID: ${result.id} av ${committer}`
+    const resId = await repository.save(ramme)
+    const response = `aktivitet "${activity}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
     res.send(response)
   } catch (e) {
     logger.error(`Could not save ramme: `, e)

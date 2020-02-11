@@ -3,10 +3,10 @@ import { Pool } from 'pg'
 import { logger } from '../utils/logger'
 
 export type Repository<T> = {
-  save: (incoming: Event<T>) => Promise<any>
-  get: <T>(id: string) => Promise<Event<T>[]>
-  getByWeek: <T>(week: number) => Promise<Event<T>[]>
-  getByCommitter: <T>(committer: string, week?: number) => Promise<Event<T>[]>
+  save: (incoming: Event<T>) => Promise<string>
+  get: (id: string) => Promise<Event<T>[]>
+  getByWeek: (week: number) => Promise<Event<T>[]>
+  getByCommitter: (committer: string, week?: number) => Promise<Event<T>[]>
 }
 
 export type Event<T> = {
@@ -29,27 +29,26 @@ export const createRepository = <T>(dbConn: Pool) => {
   } as Repository<T>
 }
 
-const saveFn = (dbConn: Pool) => async <T>(incoming: Event<T>) => {
+const saveFn = <T>(dbConn: Pool) => async (incoming: Event<T>) => {
   logger.info('Saving incoming event: ', incoming)
   const { id, timestamp, version, week, event, committer, data } = {
     ...incoming,
   }
   try {
-    await dbConn.query(
+    const saveResultId = await dbConn.query(
       `INSERT INTO events 
       (id, timestamp, version, week, event, committer, data)
-      values($1, $2, $3, $4, $5, $6, $7)`,
+      values($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id`,
       [id, timestamp, version, week, event, committer, data],
     )
-    return Promise.resolve({
-      id,
-    })
+    return saveResultId.rows[0].id
   } catch (e) {
     return Promise.reject(e)
   }
 }
 
-const getFn = (dbConn: Pool) => async <T>(id: AggregateId) => {
+const getFn = <T>(dbConn: Pool) => async (id: AggregateId) => {
   const res = await dbConn.query(
     `SELECT * FROM events WHERE id = $1 order by sequence_number asc`,
     [id],
@@ -57,7 +56,7 @@ const getFn = (dbConn: Pool) => async <T>(id: AggregateId) => {
   return res.rows as Event<T>[]
 }
 
-const getByWeekFn = (dbConn: Pool) => async <T>(week: number) => {
+const getByWeekFn = <T>(dbConn: Pool) => async (week: number) => {
   const res = await dbConn.query(
     `SELECT * FROM events WHERE week = $1 order by sequence_number asc`,
     [week],
@@ -65,7 +64,7 @@ const getByWeekFn = (dbConn: Pool) => async <T>(week: number) => {
   return res.rows as Event<T>[]
 }
 
-const getByCommitterFn = (dbConn: Pool) => async <T>(
+const getByCommitterFn = <T>(dbConn: Pool) => async (
   committer: string,
   week?: number,
 ) => {
