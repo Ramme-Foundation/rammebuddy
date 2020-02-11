@@ -1,10 +1,16 @@
 import { Pool } from 'pg'
 import { logger } from './utils/logger'
 import { createRepository } from './core/repository'
-import { Ramme, addRammeHandler, commandParser } from './ramme'
+import {
+  Ramme,
+  addRammeHandler,
+  commandParser,
+  archiveRammeHandler,
+} from './ramme'
 import { getByWeekHandler } from './ramme/getByWeekHandler'
 import express from 'express'
 import bodyParser from 'body-parser'
+import { editRammeHandler } from './ramme/editRammeHandler'
 
 require('dotenv').config()
 
@@ -31,12 +37,20 @@ const start = async () => {
     const command = commandParser(message)
 
     switch (command) {
-      case 'log': {
+      case 'add': {
         addRammeHandler(req, res, rammeRepo)
         break
       }
       case 'vecka': {
         getByWeekHandler(req, res, rammeRepo)
+        break
+      }
+      case 'edit': {
+        editRammeHandler(req, res, rammeRepo)
+        break
+      }
+      case 'arkivera': {
+        archiveRammeHandler(req, res, rammeRepo)
         break
       }
       default: {

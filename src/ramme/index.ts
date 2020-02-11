@@ -1,4 +1,6 @@
 export * from './addRammeHandler'
+export * from './editRammeHandler'
+export * from './archiveRammeHandler'
 export * from './getByWeekHandler'
 export * from './commandParser'
 export * from './reduceRamme'
