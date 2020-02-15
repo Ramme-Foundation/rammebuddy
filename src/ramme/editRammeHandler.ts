@@ -2,26 +2,50 @@ import { Repository, Event } from '../core'
 import { Ramme, RammeEvents } from '.'
 import { logger } from '../utils/logger'
 import { Request, Response } from 'express'
+import { parseIdFromCommand } from './parseIdFromCommand'
 
 export const editRammeHandler = async (
   req: Request,
   res: Response,
   repository: Repository<Ramme>,
 ) => {
-  /*
-  TODO:
+  const id = parseIdFromCommand(req.body.text)
+  const activity = getNewActivity(req.body.text)
 
-  Parse ID /ramme edit ID ny aktivitet
-  events = repo.get(id)
-  find highest version (easy because result is sorted)
-  const newEvent = {
-    id : id
-    version: version +1
-    data : { activity: new activity }
-    event: RammeEvents.RAMME_ACTIVITY_EDITED
+  if (!id || !activity) {
+    res.send('Could not parse edit command')
+    return
   }
-  repo.save(newEvent)
 
-  */
-  res.status(401).send('Not yet implemented')
+  const events = await repository.get(id)
+
+  const lastEvent = events[events.length - 1]
+  const highestVersion = lastEvent.version
+
+  const e = { ...lastEvent }
+
+  e.event = RammeEvents.RammeActivityEdited
+  e.data = { activity }
+  e.timestamp = Date.now()
+  e.version = 1 + highestVersion
+
+  try {
+    const repoRes = await repository.save(e)
+    res.send(`aktivitet med id ${repoRes} ändrad till ${activity}`)
+  } catch (e) {
+    res.status(401).send('Could not update ramme')
+  }
+}
+
+const getNewActivity = (text: string) => {
+  let activity
+  try {
+    activity = text
+      .trim()
+      .split(' ')
+      .slice(3)
+      .join(' ')
+  } catch (e) {}
+
+  return activity
 }

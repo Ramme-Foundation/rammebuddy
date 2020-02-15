@@ -16,7 +16,7 @@ export type Event<T> = {
   week: number
   event: string
   committer: string
-  data: T
+  data?: T
 }
 
 export const createRepository = <T>(dbConn: Pool) => {

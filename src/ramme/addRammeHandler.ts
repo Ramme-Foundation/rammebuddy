@@ -7,10 +7,11 @@ import { getCurrentWeekNumber, generateId } from '../utils'
 const getActivity = (text: string) => {
   let activity
   try {
-    activity = text.split(' ').slice(2)
-  } catch (error) {
-    throw new Error('Invalid add command')
-  }
+    activity = text
+      .trim()
+      .split(' ')
+      .slice(2)
+  } catch (error) {}
 
   return activity
 }
