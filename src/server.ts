@@ -17,7 +17,11 @@ require('dotenv').config()
 
 const connectToDb = async () => {
   logger.info(`(DB) Connecting...`)
-  const pool = new Pool()
+  const pool = new Pool({
+    max: 10,
+    connectionString: process.env.DATABASE_URL,
+  })
+
   logger.info(`(DB) Connection established.`)
   return pool
 }

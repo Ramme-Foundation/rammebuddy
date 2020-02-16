@@ -19,19 +19,14 @@ export type Event<T> = {
   data?: T
 }
 
-const pool = new Pool({
-  max: 10,
-  connectionString: process.env.DATABASE_URL,
-})
-
-export const createRepository = <T>(pool: Pool) => {
+export const createRepository = <T>(dbConn: Pool) => {
   logger.info(`(DB) Initiating repository interface`)
 
   return {
-    save: saveFn(pool),
-    get: getFn(pool),
-    getByWeek: getByWeekFn(pool),
-    getByCommitter: getByCommitterFn(pool),
+    save: saveFn(dbConn),
+    get: getFn(dbConn),
+    getByWeek: getByWeekFn(dbConn),
+    getByCommitter: getByCommitterFn(dbConn),
   } as Repository<T>
 }
 
@@ -41,7 +36,7 @@ const saveFn = <T>(dbConn: Pool) => async (incoming: Event<T>) => {
     ...incoming,
   }
   try {
-    const saveResultId = await pool.query(
+    const saveResultId = await dbConn.query(
       `INSERT INTO events 
       (id, timestamp, version, week, event, committer, data)
       values($1, $2, $3, $4, $5, $6, $7)
@@ -54,16 +49,16 @@ const saveFn = <T>(dbConn: Pool) => async (incoming: Event<T>) => {
   }
 }
 
-const getFn = <T>(dbConn: Pool) => async (id: AggregateId) => {
-  const res = await pool.query(
+const getFn = <T>(dbcon: Pool) => async (id: AggregateId) => {
+  const res = await dbcon.query(
     `SELECT * FROM events WHERE id = $1 order by sequence_number asc`,
     [id],
   )
   return res.rows as Event<T>[]
 }
 
-const getByWeekFn = <T>(dbConn: Pool) => async (week: number) => {
-  const res = await pool.query(
+const getByWeekFn = <T>(dbcon: Pool) => async (week: number) => {
+  const res = await dbcon.query(
     `SELECT * FROM events WHERE week = $1 order by sequence_number asc`,
     [week],
   )
@@ -76,13 +71,13 @@ const getByCommitterFn = <T>(dbConn: Pool) => async (
 ) => {
   let res
   if (week) {
-    res = await pool.query(
+    res = await dbConn.query(
       `SELECT * FROM events WHERE 
       committer = $1 AND week = $2 order by sequence_number asc`,
       [committer, week],
     )
   } else {
-    res = await pool.query(
+    res = await dbConn.query(
       `SELECT * FROM events WHERE 
       committer = $1 order by sequence_number asc`,
       [committer],
