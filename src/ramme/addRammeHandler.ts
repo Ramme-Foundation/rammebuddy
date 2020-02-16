@@ -10,7 +10,7 @@ const getActivity = (text: string) => {
     activity = text
       .trim()
       .split(' ')
-      .slice(2)
+      .slice(1)
   } catch (error) {}
 
   return activity
@@ -28,7 +28,7 @@ export const addRammeHandler = async (
     return
   }
 
-  const committer = 'Fluff'
+  const committer = req.body.user_name
   const week = getCurrentWeekNumber()
   const id = generateId()
 
@@ -47,7 +47,10 @@ export const addRammeHandler = async (
   try {
     const resId = await repository.save(ramme)
     const response = `aktivitet "${activity}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
-    res.send(response)
+    res.send({
+      response_type: 'in_channel',
+      text: response,
+    })
   } catch (e) {
     logger.error(`Could not save ramme: `, e)
     res.status(500).send(`Något gick fel vid sparandet av ramme :(`)

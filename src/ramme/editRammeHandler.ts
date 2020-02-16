@@ -31,7 +31,11 @@ export const editRammeHandler = async (
 
   try {
     const repoRes = await repository.save(e)
-    res.send(`aktivitet med id ${repoRes} ändrad till ${activity}`)
+    const response = `aktivitet med id ${repoRes} ändrad till ${activity}`
+    res.send({
+      response_type: 'in_channel',
+      text: response,
+    })
   } catch (e) {
     res.status(401).send('Could not update ramme')
   }
@@ -43,7 +47,7 @@ const getNewActivity = (text: string) => {
     activity = text
       .trim()
       .split(' ')
-      .slice(3)
+      .slice(2)
       .join(' ')
   } catch (e) {}
 

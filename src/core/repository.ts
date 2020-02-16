@@ -1,6 +1,6 @@
 import { AggregateId } from '.'
-import { Pool } from 'pg'
 import { logger } from '../utils/logger'
+import { Pool } from 'pg'
 
 export type Repository<T> = {
   save: (incoming: Event<T>) => Promise<AggregateId>
@@ -21,6 +21,7 @@ export type Event<T> = {
 
 export const createRepository = <T>(dbConn: Pool) => {
   logger.info(`(DB) Initiating repository interface`)
+
   return {
     save: saveFn(dbConn),
     get: getFn(dbConn),

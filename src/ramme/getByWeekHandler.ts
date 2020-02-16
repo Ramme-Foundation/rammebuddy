@@ -16,7 +16,10 @@ export const getByWeekHandler = async (
 
   const formattedWeek = formatWeek(reduceWeek(events))
 
-  res.send(formattedWeek)
+  res.send({
+    response_type: 'in_channel',
+    text: formattedWeek,
+  })
 }
 
 const formatWeek = (week: ReducedWeek) => {
