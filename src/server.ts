@@ -11,6 +11,7 @@ import { getByWeekHandler } from './ramme/getByWeekHandler'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { editRammeHandler } from './ramme/editRammeHandler'
+import { helpRammeHandler } from './ramme/helpRammeHandler'
 
 require('dotenv').config()
 
@@ -28,12 +29,12 @@ const start = async () => {
   const app = express()
 
   app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
 
   app.get('/', async (req, res) => res.send(`Ramme Buddy 0.0.1: OK`))
 
   app.post('/ramme', async (req, res) => {
     const message = req.body.text
-
     const command = commandParser(message)
 
     switch (command) {
@@ -53,8 +54,9 @@ const start = async () => {
         archiveRammeHandler(req, res, rammeRepo)
         break
       }
+      case 'help':
       default: {
-        res.status(400).send('Unknown command')
+        helpRammeHandler(req, res, rammeRepo)
         break
       }
     }

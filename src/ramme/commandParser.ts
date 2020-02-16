@@ -1,8 +1,7 @@
 export const commandParser = (message: string) => {
   let command
   try {
-    if (!message.startsWith('/ramme')) return undefined
-    command = message.split(' ')[1]
+    command = message.length > 0 ? message.split(' ')[0] : 'help'
   } catch (error) {}
   return command
 }
