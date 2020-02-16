@@ -18,11 +18,6 @@ Prereqs:
 First time:
 
 ``` sh
-cd infra
-docker-compose up -d
-./create_db.sh
-cd ..
-yarn
-yarn dev
+docker-compose up
 ```
 

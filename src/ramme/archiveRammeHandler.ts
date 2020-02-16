@@ -29,7 +29,11 @@ export const archiveRammeHandler = async (
 
   try {
     const repoRes = await repository.save(e)
-    res.send(`aktivitet med id ${repoRes} arkiverad`)
+    const response = `aktivitet med id ${repoRes} arkiverad`
+    res.send({
+      response_type: 'in_channel',
+      text: response,
+    })
   } catch (e) {
     res.status(401).send('Could not archive ramme')
   }
