@@ -49,16 +49,16 @@ const saveFn = <T>(dbConn: Pool) => async (incoming: Event<T>) => {
   }
 }
 
-const getFn = <T>(dbcon: Pool) => async (id: AggregateId) => {
-  const res = await dbcon.query(
+const getFn = <T>(dbConn: Pool) => async (id: AggregateId) => {
+  const res = await dbConn.query(
     `SELECT * FROM events WHERE id = $1 order by sequence_number asc`,
     [id],
   )
   return res.rows as Event<T>[]
 }
 
-const getByWeekFn = <T>(dbcon: Pool) => async (week: number) => {
-  const res = await dbcon.query(
+const getByWeekFn = <T>(dbConn: Pool) => async (week: number) => {
+  const res = await dbConn.query(
     `SELECT * FROM events WHERE week = $1 order by sequence_number asc`,
     [week],
   )
