@@ -62,8 +62,8 @@ const getWeekInMessage = (text: string | undefined) => {
   let week
   try {
     const parts = text.split(' ')
-    if (parts.length === 3) {
-      week = parts[2]
+    if (parts.length === 2) {
+      week = parts[1]
       return parseInt(week)
     }
   } catch (error) {
