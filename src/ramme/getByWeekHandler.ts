@@ -11,7 +11,7 @@ export const getByWeekHandler = async (
   res: Response,
   repository: Repository<Ramme>,
 ) => {
-  const week = getWeekInMessage(req.body.text) || getCurrentWeekNumber()
+  const week = getWeekInMessage(req.body.text)
   const events = await repository.getByWeek(week)
 
   const formattedWeek = formatWeek(reduceWeek(events))
@@ -56,17 +56,19 @@ const reduceWeek = (events: Event<Ramme>[]) => {
   return rammesBy
 }
 
-const getWeekInMessage = (text: string | undefined) => {
-  if (!text) return undefined
+const getWeekInMessage = (text: string) => {
+  let week = getCurrentWeekNumber()
 
-  let week
-  try {
-    const parts = text.split(' ')
-    if (parts.length === 2) {
-      week = parts[1]
-      return parseInt(week)
+  if (!text) return week
+
+  const parts = text.split(' ')
+  if (parts.length === 2) {
+    try {
+      week = parseInt(parts[1])
+    } catch (error) {
+      week = getCurrentWeekNumber()
     }
-  } catch (error) {
-    return undefined
   }
+
+  return week
 }
