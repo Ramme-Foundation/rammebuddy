@@ -65,9 +65,7 @@ const getWeekInMessage = (text: string) => {
   if (parts.length === 2) {
     try {
       week = parseInt(parts[1])
-    } catch (error) {
-      week = getCurrentWeekNumber()
-    }
+    } catch (error) {}
   }
 
   return week

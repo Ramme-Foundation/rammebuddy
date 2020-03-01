@@ -11,7 +11,7 @@ export const helpRammeHandler = async (
 ) => {
   try {
     const response = `Anvädning av Rammebuddy:
-    -'/ramme add <namn>' för att registrera träningspass med namn: <namn>
+    -'/ramme add <namn> [<vecka>]' för att registrera träningspass med namn: <namn>, ange vecka för att registrera i annan vecka än nuvarande.
 
     -'/ramme vecka [<vecka>]' för att visa antal pass för vecka <vecka> (nuvarande vecka som standard)
 

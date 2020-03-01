@@ -7,13 +7,24 @@ import { getCurrentWeekNumber, generateId } from '../utils'
 const getActivity = (text: string) => {
   let activity
   try {
-    activity = text
-      .trim()
-      .split(' ')
-      .slice(1)
+    activity = text[1]
   } catch (error) {}
 
   return activity
+}
+
+const getWeekInMessage = (text: string) => {
+  let week = getCurrentWeekNumber()
+
+  if (!text) return week
+
+  if (text.length === 3) {
+    try {
+      week = parseInt(text[2])
+    } catch (error) {}
+  }
+
+  return week
 }
 
 export const addRammeHandler = async (
@@ -21,7 +32,8 @@ export const addRammeHandler = async (
   res: Response,
   repository: Repository<Ramme>,
 ) => {
-  const activity = getActivity(req.body.text)?.join(' ')
+  const input = req.body.text.split(' ')
+  const activity = getActivity(input)
 
   if (!activity) {
     res.status(400).send('Empty activity')
@@ -29,7 +41,7 @@ export const addRammeHandler = async (
   }
 
   const committer = req.body.user_name
-  const week = getCurrentWeekNumber()
+  const week = getWeekInMessage(input)
   const id = generateId()
 
   const ramme: Event<Ramme> = {
