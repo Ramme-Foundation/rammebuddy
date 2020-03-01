@@ -13,7 +13,7 @@ Tags:
 Prereqs:
 
   + Docker
-  + Node
+  + Docker-compose
 
 First time:
 
