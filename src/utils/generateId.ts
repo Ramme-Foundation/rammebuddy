@@ -1,3 +1,3 @@
-const shortid = require('shortid')
+const nanoid = require('nanoid')
 
-export const generateId = () => shortid()
+export const generateId = () => nanoid(8)

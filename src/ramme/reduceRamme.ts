@@ -12,11 +12,11 @@ export const reduceRamme = (events: Event<Ramme>[]) => {
     const event = e.event
     switch (event) {
       case RammeEvents.RammeAdded: {
-        ramme = e.data
+        ramme = e.data as Ramme
         break
       }
       case RammeEvents.RammeActivityEdited: {
-        ramme.activity = e.data.activity
+        ramme.activity = e.data!.activity
         break
       }
       case RammeEvents.RammeArchived: {
@@ -25,7 +25,7 @@ export const reduceRamme = (events: Event<Ramme>[]) => {
       }
       default: {
         logger.warn(
-          `Unknown ramme event ${event} found in aggregate id ${e.id}`,
+          `Unknown ramme event ${event} found belonging to aggregate_id ${e.id}`,
         )
       }
     }
