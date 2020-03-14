@@ -1,3 +1,3 @@
-import uuid = require('uuid')
+const shortid = require('shortid')
 
-export const generateId = () => uuid()
+export const generateId = () => shortid()
