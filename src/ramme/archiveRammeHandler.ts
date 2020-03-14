@@ -20,12 +20,14 @@ export const archiveRammeHandler = async (
   const lastEvent = events[events.length - 1]
   const highestVersion = lastEvent.version
 
-  const e = { ...lastEvent }
-
-  e.event = RammeEvents.RammeArchived
-  e.data = undefined
-  e.timestamp = Date.now()
-  e.version = 1 + highestVersion
+  const e = {
+    ...lastEvent,
+    event: RammeEvents.RammeArchived,
+    data: undefined,
+    timestamp: Date.now(),
+    version: 1 + highestVersion,
+    committer: req.body.user_name,
+  }
 
   try {
     const repoRes = await repository.save(e)
