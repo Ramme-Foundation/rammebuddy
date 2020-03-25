@@ -22,12 +22,14 @@ export const editRammeHandler = async (
   const lastEvent = events[events.length - 1]
   const highestVersion = lastEvent.version
 
-  const e = { ...lastEvent }
-
-  e.event = RammeEvents.RammeActivityEdited
-  e.data = { activity }
-  e.timestamp = Date.now()
-  e.version = 1 + highestVersion
+  const e = {
+    ...lastEvent,
+    event: RammeEvents.RammeActivityEdited,
+    data: { activity },
+    timestamp: Date.now(),
+    version: 1 + highestVersion,
+    committer: req.body.user_name,
+  }
 
   try {
     const repoRes = await repository.save(e)

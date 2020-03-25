@@ -4,27 +4,13 @@ import { logger } from '../utils/logger'
 import { Request, Response } from 'express'
 import { getCurrentWeekNumber, generateId } from '../utils'
 
-const getActivity = (text: string) => {
+const getActivity = (messageParts: string[]) => {
   let activity
   try {
-    activity = text[1]
+    activity = messageParts[1]
   } catch (error) {}
 
   return activity
-}
-
-const getWeekInMessage = (text: string) => {
-  let week = getCurrentWeekNumber()
-
-  if (!text) return week
-
-  if (text.length === 3) {
-    try {
-      week = parseInt(text[2])
-    } catch (error) {}
-  }
-
-  return week
 }
 
 export const addRammeHandler = async (
@@ -32,8 +18,8 @@ export const addRammeHandler = async (
   res: Response,
   repository: Repository<Ramme>,
 ) => {
-  const input = req.body.text.split(' ')
-  const activity = getActivity(input)
+  const messageParts: string[] = req.body.text.split(' ')
+  const activity = getActivity(messageParts)
 
   if (!activity) {
     res.status(400).send('Empty activity')
@@ -41,7 +27,7 @@ export const addRammeHandler = async (
   }
 
   const committer = req.body.user_name
-  const week = getWeekInMessage(input)
+  const week = getCurrentWeekNumber()
   const id = generateId()
 
   const ramme: Event<Ramme> = {
@@ -59,12 +45,14 @@ export const addRammeHandler = async (
   try {
     const resId = await repository.save(ramme)
     const response = `aktivitet "${activity}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
-    res.send({
-      response_type: 'in_channel',
-      text: response,
-    })
+    res
+      .send({
+        response_type: 'in_channel',
+        text: response,
+      })
+      .status(200)
   } catch (e) {
-    logger.error(`Could not save ramme: `, e)
-    res.status(500).send(`Något gick fel vid sparandet av ramme :(`)
+    logger.error(`Could not save ramme: [${ramme}] due to `, e)
+    res.status(500)
   }
 }

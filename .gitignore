@@ -3,3 +3,4 @@ node_modules
 infra/data
 .vscode
 yarn-error.log
+postgres-data/

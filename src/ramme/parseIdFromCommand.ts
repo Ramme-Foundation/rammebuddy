@@ -1,8 +1,8 @@
-import uuid = require('uuid')
+import { generateId } from '../utils'
 
 export const parseIdFromCommand = (command: string) => {
   try {
     const id = command.trim().split(' ')[1]
-    return id.length === uuid().length ? id : undefined
+    return id.length === generateId().length ? id : undefined
   } catch (e) {}
 }

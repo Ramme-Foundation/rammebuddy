@@ -10,14 +10,14 @@ export const helpRammeHandler = async (
   repository: Repository<Ramme>,
 ) => {
   try {
-    const response = `Anvädning av Rammebuddy:
-    -'/ramme add <namn> [<vecka>]' för att registrera träningspass med namn: <namn>, ange vecka för att registrera i annan vecka än nuvarande.
+    const response = `Användning av Rammebuddy:
+    -'/ramme add <namn>' för att registrera träningspass med namn: <namn>.
 
     -'/ramme vecka [<vecka>]' för att visa antal pass för vecka <vecka> (nuvarande vecka som standard)
 
     -'/ramme edit <id> <aktivitet>' för att uppdatera aktivitet med id: <id> till aktivitet: <aktivitet>
 
-    -'/ramme arkivera <id>' för att akrivera pass med id: <id>
+    -'/ramme arkivera <id>' för att arkivera pass med id: <id>
     `
     res.send({
       response_type: 'in_channel',

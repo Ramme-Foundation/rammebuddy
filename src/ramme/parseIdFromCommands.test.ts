@@ -3,22 +3,30 @@ import { parseIdFromCommand } from './parseIdFromCommand'
 describe('parseIdFromCommand', () => {
   let message: string
 
-  const id = '4efab678-d9ca-412c-b2a1-61197df2aedd'
+  const id = 'PeDLIAfJ'
   beforeEach(() => {
     message = ''
   })
 
   describe('happy case', () => {
     it('should find id', () => {
-      message = `/ramme edit ${id}`
+      message = `edit ${id}`
       const res = parseIdFromCommand(message)
       expect(res).toEqual(id)
     })
 
     it('should find id with trailing stuff', () => {
-      message = `/ramme edit ${id} new activity`
+      message = `edit ${id} new activity`
       const res = parseIdFromCommand(message)
       expect(res).toEqual(id)
+    })
+  })
+
+  describe('unhappy case', () => {
+    it('should return undefined if id is not normal length', () => {
+      message = `edit ${id}123 new activity`
+      const res = parseIdFromCommand(message)
+      expect(res).toBeUndefined()
     })
   })
 })

@@ -1,3 +1,3 @@
-import uuid = require('uuid')
+const nanoid = require('nanoid')
 
-export const generateId = () => uuid()
+export const generateId = () => nanoid(8)
