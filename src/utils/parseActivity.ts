@@ -1,0 +1,20 @@
+import { getCurrentWeekNumber } from './getCurrentWeekNumber'
+
+export interface Activity {
+  week: number
+  message: string
+}
+
+export const parseActivity = (message: string): Activity => {
+  const WEEK_REGEX = /(?:vecka|week)?\s*(\d+)/g
+  const match = WEEK_REGEX.exec(message)
+  let week = getCurrentWeekNumber()
+  if (match?.length === 2) {
+    week = Number(match![1].trim())
+  }
+  const parsedMessage = message.replace(match![0], '').trim()
+  return {
+    week,
+    message: parsedMessage,
+  }
+}
