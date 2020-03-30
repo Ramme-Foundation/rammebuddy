@@ -3,6 +3,7 @@ import { Ramme, RammeEvents } from '.'
 import { logger } from '../utils/logger'
 import { Request, Response } from 'express'
 import { getCurrentWeekNumber, generateId } from '../utils'
+import { parseActivity, Activity } from '../utils/parseActivity'
 
 const getActivity = (messageParts: string[]) => {
   let activity
@@ -18,16 +19,15 @@ export const addRammeHandler = async (
   res: Response,
   repository: Repository<Ramme>,
 ) => {
-  const messageParts: string[] = req.body.text.split(' ')
-  const activity = getActivity(messageParts)
-
-  if (!activity) {
+  let activity: Activity | null = null
+  try {
+    activity = parseActivity(req.body.text)
+  } catch {
     res.status(400).send('Empty activity')
     return
   }
-
   const committer = req.body.user_name
-  const week = getCurrentWeekNumber()
+  const week = activity.week
   const id = generateId()
 
   const ramme: Event<Ramme> = {
@@ -38,7 +38,7 @@ export const addRammeHandler = async (
     event: RammeEvents.RammeAdded,
     committer,
     data: {
-      activity,
+      activity: activity.message,
     },
   }
 
