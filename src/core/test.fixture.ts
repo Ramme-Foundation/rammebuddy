@@ -5,6 +5,7 @@ const mockRepo = {
   get: jest.fn(),
   getByWeek: jest.fn(),
   getByCommitter: jest.fn(),
+  getTotal: jest.fn(),
 }
 
 export const mockRepoFactory = <T>(p?: Partial<Repository<T>>) => ({
