@@ -1,6 +1,5 @@
-import { Repository, Event } from '../core'
+import { Repository } from '../core'
 import { Ramme, RammeEvents } from '.'
-import { logger } from '../utils/logger'
 import { Request, Response } from 'express'
 import { parseIdFromCommand } from './parseIdFromCommand'
 

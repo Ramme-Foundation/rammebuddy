@@ -4,6 +4,7 @@ export * from './archiveRammeHandler'
 export * from './getByWeekHandler'
 export * from './commandParser'
 export * from './reduceRamme'
+export * from './getTotalHandler'
 
 export type Ramme = {
   activity: string

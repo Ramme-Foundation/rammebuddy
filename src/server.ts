@@ -6,6 +6,7 @@ import {
   addRammeHandler,
   commandParser,
   archiveRammeHandler,
+  getTotalHandler,
 } from './ramme'
 import { getByWeekHandler } from './ramme/getByWeekHandler'
 import express from 'express'
@@ -56,6 +57,10 @@ const start = async () => {
       }
       case 'arkivera': {
         archiveRammeHandler(req, res, rammeRepo)
+        break
+      }
+      case 'total': {
+        getTotalHandler(res, rammeRepo)
         break
       }
       case 'help':

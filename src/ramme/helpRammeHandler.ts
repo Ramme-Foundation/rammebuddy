@@ -18,7 +18,9 @@ export const helpRammeHandler = async (
     -'/ramme edit <id> <aktivitet>' för att uppdatera aktivitet med id: <id> till aktivitet: <aktivitet>
 
     -'/ramme arkivera <id>' för att arkivera pass med id: <id>
-    `
+
+    -'/ramme total' för att se totalt antal pass`
+
     res.send({
       response_type: 'in_channel',
       text: response,

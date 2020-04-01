@@ -7,6 +7,12 @@ export type Repository<T> = {
   get: (id: string) => Promise<Event<T>[]>
   getByWeek: (week: number) => Promise<Event<T>[]>
   getByCommitter: (committer: string, week?: number) => Promise<Event<T>[]>
+  getTotal: () => Promise<Summary<T>[]>
+}
+
+export type Summary<T> = {
+  committer: string
+  count: number
 }
 
 export type Event<T> = {
@@ -27,6 +33,7 @@ export const createRepository = <T>(dbConn: Pool) => {
     get: getFn(dbConn),
     getByWeek: getByWeekFn(dbConn),
     getByCommitter: getByCommitterFn(dbConn),
+    getTotal: getTotalFn(dbConn),
   } as Repository<T>
 }
 
@@ -85,4 +92,12 @@ const getByCommitterFn = <T>(dbConn: Pool) => async (
   }
 
   return res.rows as Event<T>[]
+}
+
+const getTotalFn = <T>(dbConn: Pool) => async () => {
+  const res = await dbConn.query(
+    `SELECT committer, COUNT(*) FROM events GROUP BY committer`,
+  )
+
+  return res.rows as Summary<T>[]
 }
