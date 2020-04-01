@@ -21,7 +21,11 @@ export const addRammeHandler = async (
 ) => {
   let activity: Activity | null = null
   try {
-    activity = parseActivity(req.body.text)
+    const commandArray = (req.body.text as string).split(' ')
+    const messageWithoutCommand = commandArray
+      .slice(1, commandArray.length + 1)
+      .join(' ')
+    activity = parseActivity(messageWithoutCommand)
   } catch {
     res.status(400).send('Empty activity')
     return
@@ -44,7 +48,7 @@ export const addRammeHandler = async (
 
   try {
     const resId = await repository.save(ramme)
-    const response = `aktivitet "${activity}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
+    const response = `aktivitet "${activity.message}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
     res
       .send({
         response_type: 'in_channel',
