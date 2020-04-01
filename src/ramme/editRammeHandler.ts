@@ -21,8 +21,10 @@ export const editRammeHandler = async (
 
   const lastEvent = events[events.length - 1]
   const highestVersion = lastEvent.version
+  const initEvent = events.find(event => event.event === 'RAMME_ADDED')
+  const eventOwner = initEvent!.committer
 
-  const e = {
+  const event = {
     ...lastEvent,
     event: RammeEvents.RammeActivityEdited,
     data: { activity },
@@ -32,12 +34,20 @@ export const editRammeHandler = async (
   }
 
   try {
-    const repoRes = await repository.save(e)
-    const response = `aktivitet med id ${repoRes} ändrad till ${activity}`
-    res.send({
-      response_type: 'in_channel',
-      text: response,
-    })
+    if (eventOwner === req.body.user_name) {
+      const repoRes = await repository.save(event)
+      const response = `aktivitet med id ${repoRes} ändrad till ${activity}`
+      res.send({
+        response_type: 'in_channel',
+        text: response,
+      })
+    } else {
+      res.send({
+        response_type: 'in_channel',
+        text: "You're not allowed to archive the activities of other people",
+      })
+      return
+    }
   } catch (e) {
     res.status(401).send('Could not update ramme')
   }
