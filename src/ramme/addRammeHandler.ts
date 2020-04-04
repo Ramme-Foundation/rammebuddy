@@ -2,17 +2,8 @@ import { Repository, Event } from '../core'
 import { Ramme, RammeEvents } from '.'
 import { logger } from '../utils/logger'
 import { Request, Response } from 'express'
-import { getCurrentWeekNumber, generateId } from '../utils'
+import { generateId } from '../utils'
 import { parseActivity, Activity } from '../utils/parseActivity'
-
-const getActivity = (messageParts: string[]) => {
-  let activity
-  try {
-    activity = messageParts[1]
-  } catch (error) {}
-
-  return activity
-}
 
 export const addRammeHandler = async (
   req: Request,
