@@ -40,12 +40,11 @@ export const addRammeHandler = async (
   try {
     const resId = await repository.save(ramme)
     const response = `aktivitet "${activity.message}" loggad i vecka ${week} med ID: ${resId} av ${committer}`
-    res
-      .send({
-        response_type: 'in_channel',
-        text: response,
-      })
-      .status(200)
+    res.send({
+      response_type: 'in_channel',
+      text: response,
+    })
+    res.status(200)
   } catch (e) {
     logger.error(`Could not save ramme: [${ramme}] due to `, e)
     res.status(500)
