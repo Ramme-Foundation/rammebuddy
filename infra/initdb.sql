@@ -1,8 +1,3 @@
-\set userName `echo "$POSTGRES_USER"`
-\set dbName `echo "$POSTGRES_DB"`
-
-GRANT ALL PRIVILEGES ON DATABASE :dbName TO :userName;
-
 CREATE TABLE IF NOT EXISTS "events" (
   "id" VARCHAR NOT NULL,
   "week" INT NOT NULL,

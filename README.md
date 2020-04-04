@@ -11,13 +11,31 @@ Tags:
 ### Dev env
 
 Prereqs:
-
-  + Docker
-  + Docker-compose
+  + nodejs
+  + docker
+  + docker-compose
 
 First time:
 
+Download yarn if not available.
+
 ``` sh
-docker-compose up
+npm i -g yarn
 ```
 
+Start the developer environment by running
+
+``` sh
+docker-compose up -d
+yarn
+yarn dev
+```
+
+
+### Deployment
+
+Compile and dockerize a production-grade container
+
+``` sh
+docker build -t rammebuddy .
+```
