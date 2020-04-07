@@ -47,7 +47,7 @@ const start = async () => {
         addRammeHandler(req, res, rammeRepo)
         break
       }
-      case 'vecka': {
+      case 'week': {
         getByWeekHandler(req, res, rammeRepo)
         break
       }
@@ -55,7 +55,7 @@ const start = async () => {
         editRammeHandler(req, res, rammeRepo)
         break
       }
-      case 'arkivera': {
+      case 'archive': {
         archiveRammeHandler(req, res, rammeRepo)
         break
       }
