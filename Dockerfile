@@ -26,4 +26,4 @@ COPY --from=build /app/dist ./
 #RUN mkdir /root/.aws/
 #COPY credentials /root/.aws/
 
-CMD [ "node", "server.js" ]
+CMD [ "node", "src/server.js" ]
