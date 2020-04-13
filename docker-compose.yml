@@ -12,6 +12,7 @@ services:
       POSTGRES_USER: developer
       POSTGRES_DB: store
     volumes:
+      - ./infra:/docker-entrypoint-initdb.d/
       - postgres-data:/var/lib/postgresql/data
 
 volumes:
