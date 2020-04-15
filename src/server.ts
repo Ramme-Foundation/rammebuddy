@@ -16,14 +16,18 @@ import { helpRammeHandler } from './ramme/helpRammeHandler'
 
 require('dotenv').config()
 
-const connectToDb = async () => {
+const connectToDb = async (): Promise<Pool> => {
   logger.info(`(DB) Connecting...`)
   const pool = new Pool({
     max: 10,
     connectionString: process.env.DATABASE_URL,
   })
-
-  logger.info(`(DB) Connection established.`)
+  try {
+    await pool.connect()
+    logger.info(`(DB) Connection established.`)
+  } catch (e) {
+    return process.exit(1)
+  }
   return pool
 }
 
