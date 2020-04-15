@@ -12,19 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Build and Deploy to Cloud Run
+name: Build and Deploy to Prod
 
 on:
   push:
     branches:
     - master
-  pull_request:
-    branches: [ master ]
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
   RUN_REGION: europe-west1
-  SERVICE_NAME: rammebuddy-build
+  SERVICE_NAME: rammebuddy-prod
 
 jobs:
   setup-build-deploy:
