@@ -71,9 +71,9 @@ const start = async () => {
     }
   })
 
-  app.listen(process.env.APP_PORT)
+  app.listen(process.env.PORT)
 
-  logger.info(`(APP) Listening at port ${process.env.APP_PORT}`)
+  logger.info(`(APP) Listening at port ${process.env.PORT}`)
 }
 
 start()
