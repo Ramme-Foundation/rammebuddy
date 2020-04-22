@@ -18,16 +18,22 @@ export const getByWeekHandler = async (
 
   res.send({
     response_type: 'in_channel',
-    text: formattedWeek,
+    blocks: formattedWeek,
   })
 }
 
 const formatWeek = (week: ReducedWeek) => {
   const warriors = Object.keys(week).map(committer => {
     const activities = week[committer]
-    return `${committer} (${activities.length}) : [${activities}]`
+    return {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `*${committer}:* [${activities.length}] ${activities.join(', ')}`,
+      },
+    }
   })
-  return warriors.join('\n')
+  return warriors
 }
 
 const reduceWeek = (events: Event<Ramme>[]) => {
