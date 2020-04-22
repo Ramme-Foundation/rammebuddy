@@ -1,7 +1,21 @@
 version: '3.1'
 
 services:
-  db: 
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://developer:secret@postgres:5432/store
+      PORT: 3000
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    command: yarn dev
+    volumes:
+      - .:/app/
+      - /app/node_modules
+  postgres:
     container_name: ramme-postgres
     image: postgres:9.4
     restart: always
@@ -13,7 +27,6 @@ services:
       POSTGRES_DB: store
     volumes:
       - ./infra:/docker-entrypoint-initdb.d/
-      - postgres-data:/var/lib/postgresql/data
-
-volumes:
-  postgres-data:   
+    #  - postgres-data:/var/lib/postgresql/data
+#volumes:
+# postgres-data:
