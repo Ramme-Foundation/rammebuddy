@@ -476,19 +476,13 @@
     "@types/node" "*"
     "@types/pg-types" "*"
 
-"@types/pino-std-serializers@*":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@types/pino-std-serializers/-/pino-std-serializers-2.4.0.tgz#8cad99175cb79c2448f7455a2d32fb3fde29579c"
-  integrity sha512-eAdu+NW1IkCdmp85SnhyKha+OOREQMT9lXaoICQxa7bhSauRiLzu3WSNt9Mf2piuJvWeXF/G0hGWHr63xNpIRA==
-
-"@types/pino@5.15.5":
-  version "5.15.5"
-  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-5.15.5.tgz#8e0d31ca71ecd955085fd81b30878ea239c9f570"
-  integrity sha512-UWEzZVLZ9NGNMeQrkckfsUuyPNwmIIhSNBulLL13Eh0QEebsq/QXd4x8OKsb1O+OkYBlWl5F90HZ9UFOjWWCbg==
+"@types/pino@5.20.0":
+  version "5.20.0"
+  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-5.20.0.tgz#d4bafa71d992d223d29c857c11988e8c3abc66f0"
+  integrity sha512-gz3Ahvx1UDEveXViOQtYqnUkjSVQFdoJqpZTW/63spEHwOGRJRJIi3JMJSClp5Sk1x1ljn9tHWjGczmP6s/rvg==
   dependencies:
+    "@types/events" "*"
     "@types/node" "*"
-    "@types/pino-std-serializers" "*"
-    "@types/sonic-boom" "*"
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -502,13 +496,6 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
-
-"@types/sonic-boom@*":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@types/sonic-boom/-/sonic-boom-0.7.0.tgz#38337036293992a1df65dd3161abddf8fb9b7176"
-  integrity sha512-AfqR0fZMoUXUNwusgXKxcE9DPlHNDHQp6nKYUd4PSRpLobF5CCevSpyTEBcVZreqaWKCnGBr9KI1fHMTttoB7A==
-  dependencies:
-    "@types/node" "*"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
