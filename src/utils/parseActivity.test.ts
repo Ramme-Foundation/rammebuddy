@@ -1,4 +1,5 @@
 import { parseActivity } from './parseActivity'
+import { getCurrentWeekNumber } from './getCurrentWeekNumber'
 
 describe('parseActivity', () => {
   it('return splits week and message', () => {
@@ -18,10 +19,25 @@ describe('parseActivity', () => {
       message: 'en banan',
     })
   })
+
   it('can parse week with just a number', () => {
     expect(parseActivity('en banan 13')).toEqual({
-      week: 13,
-      message: 'en banan',
+      week: getCurrentWeekNumber(),
+      message: 'en banan 13',
+    })
+  })
+
+  it('correctly handles numbers without week', () => {
+    expect(parseActivity('500 tallar')).toEqual({
+      week: getCurrentWeekNumber(),
+      message: '500 tallar',
+    })
+  })
+
+  it('correctly handles numbers with week', () => {
+    expect(parseActivity('500 tallar vecka 5')).toEqual({
+      week: 5,
+      message: '500 tallar',
     })
   })
 })
