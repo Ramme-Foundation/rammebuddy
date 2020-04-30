@@ -6,7 +6,7 @@ export interface Activity {
 }
 
 export const parseActivity = (message: string): Activity => {
-  const WEEK_REGEX = /(?:vecka|week)?\s*(\d+)/g
+  const WEEK_REGEX = /(?:vecka|week)+?\s*(\d+)/g
   const match = WEEK_REGEX.exec(message)
   let week = getCurrentWeekNumber()
   if (match === null) {
