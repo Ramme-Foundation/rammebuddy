@@ -2,7 +2,6 @@
   "extends": [
     "config:base"
   ],
-  {
   "packageRules": [
     {
       "extends": "monorepo:typescript-eslint",
