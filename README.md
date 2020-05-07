@@ -11,31 +11,38 @@ Tags:
 ### Dev env
 
 Prereqs:
-  + nodejs
-  + docker
-  + docker-compose
+
+- nodejs
+- docker
+- docker-compose
 
 First time:
 
 Download yarn if not available.
 
-``` sh
+```sh
 npm i -g yarn
 ```
 
 Start the developer environment by running
 
-``` sh
+```sh
 docker-compose up -d
 yarn
 yarn dev
 ```
 
-
 ### Deployment
 
 Compile and dockerize a production-grade container
 
-``` sh
+```sh
 docker build -t rammebuddy .
+```
+
+### Add a dump into docker postgres
+
+```
+docker exec -i postgres-rammebuddy pg_restore --verbose --clean --no-acl --no-ow
+ner -h localhost -U postgres -d rammebuddy < filenamehere
 ```
