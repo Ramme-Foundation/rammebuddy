@@ -24,6 +24,12 @@
     ],
     "roots": [
       "./src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/migration/**/*",
+      "!**/node_modules/**",
+      "!**/vendor/**"
     ]
   },
   "devDependencies": {
