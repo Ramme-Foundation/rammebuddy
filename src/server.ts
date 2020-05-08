@@ -58,7 +58,7 @@ const start = async () => {
         break
       }
       case 'edit': {
-        editRammeHandler(req, res, rammeRepo)
+        editRammeHandler(req, res)
         break
       }
       case 'archive': {
