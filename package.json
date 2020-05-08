@@ -15,7 +15,8 @@
     "rimraf": "rimraf dist",
     "prebuild": "yarn rimraf",
     "build": "tsc",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "heroku-postbuild": "yarn run typeorm migration:run"
   },
   "jest": {
     "preset": "ts-jest",
