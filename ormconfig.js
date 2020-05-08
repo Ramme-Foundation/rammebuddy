@@ -29,10 +29,13 @@ var config = {
       'postgres://postgres:postgres@localhost:5432/rammebuddy',
   },
   production: {
-    dropSchema: false,
-    cli: {
-      ssl: true,
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
+    dropSchema: false,
   },
 }
 
