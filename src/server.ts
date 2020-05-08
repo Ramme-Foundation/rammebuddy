@@ -55,7 +55,7 @@ const start = async () => {
         break
       }
       case 'week': {
-        getByWeekHandler(req, res, rammeRepo)
+        getByWeekHandler(req, res)
         break
       }
       case 'edit': {
@@ -78,9 +78,10 @@ const start = async () => {
     }
   })
 
-  app.listen(process.env.PORT)
+  const port = process.env.PORT || 3000
+  app.listen(port)
 
-  logger.info(`(APP) Listening at port ${process.env.PORT}`)
+  logger.info(`(APP) Listening at port ${port}`)
 }
 
 start()

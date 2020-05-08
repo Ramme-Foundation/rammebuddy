@@ -10,10 +10,10 @@ export class Activity {
   week!: number
 
   @Column()
-  name!: string
+  username!: string
 
   @Column()
-  activity!: string
+  name!: string
 
   @Column({ name: 'short_id' })
   shortId!: string
