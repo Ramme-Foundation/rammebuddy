@@ -1,6 +1,4 @@
-import { Pool } from 'pg'
 import { logger } from './utils/logger'
-import { createRepository } from './core/repository'
 import {
   Ramme,
   addRammeHandler,
@@ -17,27 +15,10 @@ import createConnection from './repository/createConnection'
 
 require('dotenv').config()
 
-const connectToDb = async (): Promise<Pool> => {
-  logger.info(`(DB) Connecting...`)
-  const pool = new Pool({
-    max: 10,
-    connectionString: process.env.DATABASE_URL,
-  })
-  try {
-    await pool.connect()
-    logger.info(`(DB) Connection established.`)
-  } catch (e) {
-    return process.exit(1)
-  }
-  return pool
-}
-
 const start = async () => {
   await createConnection()
   logger.info(`Starting in mode: ${process.env.NODE_ENV}`)
 
-  const db = await connectToDb()
-  const rammeRepo = createRepository<Ramme>(db)
   const app = express()
 
   app.use(bodyParser.json())

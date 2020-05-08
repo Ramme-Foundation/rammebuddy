@@ -1,5 +1,3 @@
-import { Repository, Summary } from '../core'
-import { Ramme } from '.'
 import { Response } from 'express'
 import { getConnection } from 'typeorm'
 import { Activity } from '../entity/Activity'
