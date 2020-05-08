@@ -43,7 +43,7 @@ const start = async () => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
-  app.get('/', async (req, res) => res.send(`Ramme Buddy 0.0.1: OK`))
+  app.get('/', async (_req, res) => res.send(`Ramme Buddy 0.0.1: OK`))
 
   app.post('/ramme', async (req, res) => {
     const message = req.body.text
@@ -72,7 +72,7 @@ const start = async () => {
       }
       case 'help':
       default: {
-        helpRammeHandler(req, res, rammeRepo)
+        helpRammeHandler(req, res)
         break
       }
     }
