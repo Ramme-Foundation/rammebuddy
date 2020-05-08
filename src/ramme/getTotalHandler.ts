@@ -1,12 +1,21 @@
 import { Repository, Summary } from '../core'
 import { Ramme } from '.'
 import { Response } from 'express'
+import { getConnection } from 'typeorm'
+import { Activity } from '../entity/Activity'
 
-export const getTotalHandler = async (
-  res: Response,
-  repository: Repository<Ramme>,
-) => {
-  const total = await repository.getTotal()
+interface TotalCount {
+  count: string
+  username: string
+}
+
+export const getTotalHandler = async (res: Response) => {
+  const total: TotalCount[] = await getConnection()
+    .getRepository(Activity)
+    .query(
+      'SELECT COUNT(id), username from activity GROUP BY username ORDER BY username asc',
+    )
+
   const formattedTotal = formatTotal(total)
 
   res.send({
@@ -15,9 +24,9 @@ export const getTotalHandler = async (
   })
 }
 
-const formatTotal = (total: Summary<Ramme>[]) => {
+const formatTotal = (total: TotalCount[]) => {
   const totalStrings = total.map(row => {
-    return `${row.committer}: ${row.count}`
+    return `${row.username}: ${row.count}`
   })
   return totalStrings.join('\n')
 }

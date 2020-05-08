@@ -66,7 +66,7 @@ const start = async () => {
         break
       }
       case 'total': {
-        getTotalHandler(res, rammeRepo)
+        getTotalHandler(res)
         break
       }
       case 'help':
