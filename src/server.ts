@@ -13,6 +13,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { editRammeHandler } from './ramme/editRammeHandler'
 import { helpRammeHandler } from './ramme/helpRammeHandler'
+import createConnection from './repository/createConnection'
 
 require('dotenv').config()
 
@@ -32,7 +33,9 @@ const connectToDb = async (): Promise<Pool> => {
 }
 
 const start = async () => {
+  await createConnection()
   logger.info(`Starting in mode: ${process.env.NODE_ENV}`)
+
   const db = await connectToDb()
   const rammeRepo = createRepository<Ramme>(db)
   const app = express()
