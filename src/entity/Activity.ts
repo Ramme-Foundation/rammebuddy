@@ -10,7 +10,7 @@ import nanoid from 'nanoid'
 @Entity()
 export class Activity {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id!: string
 
   @Column('int')
   week!: number

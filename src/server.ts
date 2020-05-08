@@ -1,16 +1,14 @@
-import { logger } from './utils/logger'
-import {
-  Ramme,
-  addRammeHandler,
-  commandParser,
-  archiveRammeHandler,
-  getTotalHandler,
-} from './ramme'
-import { getByWeekHandler } from './ramme/getByWeekHandler'
 import express from 'express'
 import bodyParser from 'body-parser'
+
+import { logger } from './utils/logger'
+import { getByWeekHandler } from './ramme/getByWeekHandler'
 import { editRammeHandler } from './ramme/editRammeHandler'
 import { helpRammeHandler } from './ramme/helpRammeHandler'
+import { archiveRammeHandler } from './ramme/archiveRammeHandler'
+import { getTotalHandler } from './ramme/getTotalHandler'
+import { addRammeHandler } from './ramme/addRammeHandler'
+import { commandParser } from './ramme/commandParser'
 import createConnection from './repository/createConnection'
 
 require('dotenv').config()

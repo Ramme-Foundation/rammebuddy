@@ -1,6 +1,4 @@
 import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm'
-import { Ramme } from '../ramme'
-import { Event } from '../core'
 
 export class activitymigration1588868156603 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -102,8 +100,8 @@ export class activitymigration1588868156603 implements MigrationInterface {
         continue
       }
 
-      const firstEvent: Event<Ramme> = events[0]
-      const lastEvent: Event<Ramme> = events[events.length - 1]
+      const firstEvent = events[0]
+      const lastEvent = events[events.length - 1]
 
       if (!lastEvent.data) {
         continue
