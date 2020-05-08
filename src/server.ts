@@ -62,7 +62,7 @@ const start = async () => {
         break
       }
       case 'archive': {
-        archiveRammeHandler(req, res, rammeRepo)
+        archiveRammeHandler(req, res)
         break
       }
       case 'total': {
