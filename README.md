@@ -43,6 +43,5 @@ docker build -t rammebuddy .
 ### Add a dump into docker postgres
 
 ```
-docker exec -i postgres-rammebuddy pg_restore --verbose --clean --no-acl --no-ow
-ner -h localhost -U postgres -d rammebuddy < filenamehere
+docker exec -i postgres-rammebuddy pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d rammebuddy < filenamehere
 ```

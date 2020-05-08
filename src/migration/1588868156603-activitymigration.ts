@@ -1,5 +1,5 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm'
-import { Ramme, RammeEvents } from '../ramme'
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm'
+import { Ramme } from '../ramme'
 import { Event } from '../core'
 
 export class activitymigration1588868156603 implements MigrationInterface {
@@ -13,7 +13,12 @@ export class activitymigration1588868156603 implements MigrationInterface {
             isPrimary: true,
             isGenerated: true,
             isNullable: false,
-            type: 'int',
+            type: 'uuid',
+          },
+          {
+            name: 'short_id',
+            isNullable: false,
+            type: 'varchar',
           },
           {
             name: 'username',
@@ -39,14 +44,44 @@ export class activitymigration1588868156603 implements MigrationInterface {
       }),
     )
 
-    await this.createActivites(queryRunner)
+    await queryRunner.createIndex(
+      'activity',
+      new TableIndex({
+        name: 'IDX_activity_shortid',
+        columnNames: ['short_id'],
+      }),
+    )
+
+    await this.createActivities(queryRunner)
+    await queryRunner.dropTable('events')
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.dropTable('activity')
+    await queryRunner.query(`
+    CREATE TABLE IF NOT EXISTS "events" (
+        "id" VARCHAR NOT NULL,
+        "week" INT NOT NULL,
+        "sequence_number" BIGSERIAL,
+        "timestamp" BIGINT NOT NULL,
+        "version" INT NOT NULL,
+        "event" VARCHAR NOT NULL,
+        "committer" VARCHAR NOT NULL,
+        "data" JSONB,
+        CONSTRAINT "events_pk" PRIMARY KEY ("id","week","version","event")
+      );
+    `)
   }
 
-  private async createActivites(queryRunner: QueryRunner) {
+  private uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (Math.random() * 16) | 0
+      var v = c === 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    })
+  }
+
+  private async createActivities(queryRunner: QueryRunner) {
     const eventIds = await queryRunner.query(
       'SELECT DISTINCT(id), sequence_number FROM events',
     )
@@ -72,10 +107,12 @@ export class activitymigration1588868156603 implements MigrationInterface {
       insertValues.push(`(`)
       await queryRunner.query(
         `
-          INSERT INTO activity ( username, week, name, updated_at, created_at)
-          VALUES ($1, $2, $3, $4, $5)
+          INSERT INTO activity ( id, short_id, username, week, name, updated_at, created_at)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
       `,
         [
+          this.uuidv4(),
+          lastEvent.id, // For old data short_id and id is same
           lastEvent.committer,
           lastEvent.week,
           lastEvent.data.activity,
@@ -85,6 +122,6 @@ export class activitymigration1588868156603 implements MigrationInterface {
       )
     }
 
-    console.info('Migrated', insertValues.length, 'events to activites')
+    console.info('Migrated', insertValues.length, 'events to activities')
   }
 }
