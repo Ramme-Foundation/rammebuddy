@@ -11,9 +11,10 @@ export class activitymigration1588868156603 implements MigrationInterface {
           {
             name: 'id',
             isPrimary: true,
-            isGenerated: true,
             isNullable: false,
             type: 'uuid',
+            isGenerated: true,
+            generationStrategy: 'uuid',
           },
           {
             name: 'short_id',
@@ -22,21 +23,26 @@ export class activitymigration1588868156603 implements MigrationInterface {
           },
           {
             name: 'username',
+            isNullable: false,
             type: 'varchar',
           },
           {
             name: 'week',
+            isNullable: false,
             type: 'int',
           },
           {
             name: 'name',
+            isNullable: false,
             type: 'varchar',
           },
           {
+            isNullable: false,
             name: 'updated_at',
             type: 'timestamptz',
           },
           {
+            isNullable: false,
             name: 'created_at',
             type: 'timestamptz',
           },

@@ -51,8 +51,7 @@ const start = async () => {
 
     switch (command) {
       case 'add': {
-        addRammeHandler(req, res, rammeRepo)
-        break
+        return addRammeHandler(req, res)
       }
       case 'week': {
         getByWeekHandler(req, res)

@@ -1,10 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  BeforeUpdate,
+} from 'typeorm'
 import nanoid from 'nanoid'
 
 @Entity()
 export class Activity {
-  @PrimaryGeneratedColumn({ type: 'uuid' })
-  id!: number
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
   @Column('int')
   week!: number
@@ -25,7 +31,19 @@ export class Activity {
   createdAt!: Date
 
   @BeforeInsert()
-  updateDates() {
+  updateShortId() {
     this.shortId = nanoid(8)
+  }
+
+  @BeforeInsert()
+  createTimestamps() {
+    const date = new Date()
+    this.updatedAt = date
+    this.createdAt = date
+  }
+
+  @BeforeUpdate()
+  updateTimestamp() {
+    this.updatedAt = new Date()
   }
 }
