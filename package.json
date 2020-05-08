@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
+    "test:ci": "jest --coverage",
     "watch": "jest --watchAll",
     "prettier": "prettier --write 'src/**/*.ts'",
     "dev": "ts-node-dev ./src/server.ts | pino-pretty -c -t",

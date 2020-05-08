@@ -38,11 +38,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-      - run: yarn test
-      - run: yarn lint
-      - run: yarn build
+      - run: yarn test:ci
         env:
           CI: true
+      - run: yarn lint
+      - run: yarn build
       - name: Coveralls
         uses: coverallsapp/github-action@v1.1.0
         env:
