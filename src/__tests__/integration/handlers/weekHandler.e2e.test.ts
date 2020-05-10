@@ -67,7 +67,7 @@ describe('command', () => {
       ])
       done()
     })
-    xit('returns only get activities from this week', async (done) => {
+    it('returns only get activities from this week', async (done) => {
       await getRepository(Activity).save([
         createActivityFixture({
           shortId: '123',
@@ -97,14 +97,14 @@ describe('command', () => {
       expect(body.blocks).toEqual([
         {
           text: {
-            text: '*testing:* [2] running',
+            text: '*testing-2:* [1] running',
             type: 'mrkdwn',
           },
           type: 'section',
         },
         {
           text: {
-            text: '*testing-2:* [1] running',
+            text: '*testing:* [1] running',
             type: 'mrkdwn',
           },
           type: 'section',
