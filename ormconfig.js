@@ -39,10 +39,10 @@ var config = {
   },
 }
 
-const config = process.env.CI
+var mergedConfig = process.env.CI
   ? { ...base, ...config.test }
   : { ...base, ...config[process.env.NODE_ENV || 'development'] }
 
-console.log('using config', config)
+console.log('using config', mergedConfig)
 
-module.exports = config
+module.exports = mergedConfig
