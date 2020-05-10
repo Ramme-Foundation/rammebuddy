@@ -10,7 +10,7 @@ export default () => {
     type: 'postgres',
     // We need add the extra SSL to use heroku on localhost
     extra: {
-      ssl: !isDevMode(),
+      ssl: isDevMode() ? false : { rejectUnauthorized: false },
     },
     url:
       process.env.DATABASE_URL ||
