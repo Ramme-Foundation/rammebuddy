@@ -21,8 +21,6 @@ export const getByWeekHandler = async (req: Request, res: Response) => {
 const formatWeek = (week: Dictionary<Activity[]>) => {
   const warriors = Object.keys(week).map(committer => {
     const activities = week[committer]
-    console.log('week', week)
-    console.log('act', activities)
     return {
       type: 'section',
       text: {

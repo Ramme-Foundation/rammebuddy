@@ -19,7 +19,7 @@ var base = {
 
 var config = {
   test: {
-    url: process.env.CI ? CI_DATABASE_URL : process.env.DATABASE_TEST_URL,
+    url: process.env.DATABASE_TEST_URL || CI_DATABASE_URL,
     dropSchema: true,
   },
   development: {

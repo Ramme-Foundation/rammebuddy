@@ -4,17 +4,19 @@ import path from 'path'
 import { isDevMode } from '../utils/isDevelopmentMode'
 import { logger } from '../utils/logger'
 
-export default () => {
+export default (
+  databaseUrl = 'postgres://postgres:postgres@localhost:5432/rammebuddy',
+  forceDisableSSL = false,
+) => {
   logger.info(`(DATABASE) Connecting to database`)
   const connection = createConnection(<ConnectionOptions>{
     type: 'postgres',
     // We need add the extra SSL to use heroku on localhost
     extra: {
-      ssl: isDevMode() ? false : { rejectUnauthorized: false },
+      ssl:
+        forceDisableSSL || isDevMode() ? false : { rejectUnauthorized: false },
     },
-    url:
-      process.env.DATABASE_URL ||
-      'postgres://postgres:postgres@localhost:5432/rammebuddy',
+    url: databaseUrl,
     entities: [path.resolve(__dirname, '../entity/*.ts')],
     subscribers: [],
     logging: process.env.NODE_ENV === 'development',

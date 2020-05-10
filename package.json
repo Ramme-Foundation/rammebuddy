@@ -4,12 +4,12 @@
   "main": "service.ts",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/src/server.js",
+    "start": "node dist/src/index.js",
     "test": "jest",
-    "test:ci": "jest --coverage",
+    "test:ci": "cross-env CI=true jest --coverage --runInBand",
     "watch": "jest --watchAll",
     "prettier": "prettier --write 'src/**/*.ts'",
-    "dev": "ts-node-dev ./src/server.ts | pino-pretty -c -t",
+    "dev": "ts-node-dev ./src/index.ts | pino-pretty -c -t",
     "nodemon": "cross-env nodemon",
     "lint": "eslint ./src --ext ts",
     "lint:fix": "yarn lint --fix",
@@ -17,7 +17,9 @@
     "prebuild": "yarn rimraf",
     "build": "tsc",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "heroku-postbuild": "yarn run build && yarn run typeorm migration:run"
+    "heroku-postbuild": "yarn run build && yarn run typeorm migration:run",
+    "test:create": "./scripts/createdb.sh rammebuddy-test",
+    "test:migrate": "cross-env CI=true yarn typeorm schema:sync"
   },
   "jest": {
     "preset": "ts-jest",
@@ -27,9 +29,14 @@
     "roots": [
       "./src"
     ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/src/__tests__/fixtures"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/migration/**/*",
+      "!src/__tests__/fixtures/**/*",
       "!**/node_modules/**",
       "!**/vendor/**"
     ]

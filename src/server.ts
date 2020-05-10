@@ -13,8 +13,11 @@ import createConnection from './repository/createConnection'
 
 require('dotenv').config()
 
-const start = async () => {
-  await createConnection()
+export const getHttpServer = async () => {
+  await createConnection(
+    process.env.DATABASE_URL,
+    Boolean(process.env.DATABASE_DISABLE_SSL),
+  )
   logger.info(`Starting in mode: ${process.env.NODE_ENV}`)
 
   const app = express()
@@ -57,9 +60,7 @@ const start = async () => {
   })
 
   const port = process.env.PORT || 3000
-  app.listen(port)
 
   logger.info(`(APP) Listening at port ${port}`)
+  return app.listen(port)
 }
-
-start()

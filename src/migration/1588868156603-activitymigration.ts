@@ -106,8 +106,6 @@ export class activitymigration1588868156603 implements MigrationInterface {
       if (!lastEvent.data) {
         continue
       }
-      console.log(firstEvent)
-      console.log(lastEvent.timestamp)
       insertValues.push(`(`)
       await queryRunner.query(
         `
