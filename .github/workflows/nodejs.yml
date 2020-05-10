@@ -21,6 +21,8 @@ jobs:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
         # Set health checks to wait until postgres has started
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -41,6 +43,7 @@ jobs:
       - run: yarn test:migrate
       - run: yarn test:ci
         env:
+          DATABASE_TEST_URL: postgres://test:test@postgres:5432/test
           CI: true
       - run: yarn lint
       - run: yarn build
