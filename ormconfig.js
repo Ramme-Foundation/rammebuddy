@@ -1,4 +1,4 @@
-var CI_DATABASE_URL = 'postgres://test:test@postgres:5432/test'
+var CI_DATABASE_URL = 'postgres://test:test@localhost:5432/test'
 
 var base = {
   type: 'postgres',

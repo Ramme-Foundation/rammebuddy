@@ -10,6 +10,6 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 process.env.DATABASE_TEST_URL =
-  process.env.DATABASE_TEST_URL || 'postgres://test:test@postgres:5432/test'
+  process.env.DATABASE_TEST_URL || 'postgres://test:test@localhost:5432/test'
 
 process.env.DATABASE_URL = process.env.DATABASE_TEST_URL
