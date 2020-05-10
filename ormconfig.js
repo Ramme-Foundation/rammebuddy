@@ -39,6 +39,10 @@ var config = {
   },
 }
 
-module.exports = process.env.CI
+const config = process.env.CI
   ? { ...base, ...config.test }
   : { ...base, ...config[process.env.NODE_ENV || 'development'] }
+
+console.log('using config', config)
+
+module.exports = config

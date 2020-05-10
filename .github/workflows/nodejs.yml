@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    variables:
+    env:
       DATABASE_TEST_URL: postgres://test:test@postgres:5432/test
       CI: true
     services:
