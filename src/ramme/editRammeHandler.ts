@@ -39,9 +39,7 @@ export const editRammeHandler = async (req: Request, res: Response) => {
   activity.name = parsedActivity
 
   try {
-    const repoRes = await getConnection()
-      .getRepository(Activity)
-      .save(activity)
+    const repoRes = await getConnection().getRepository(Activity).save(activity)
     const response = `activity with id ${repoRes.shortId} changed to ${repoRes.name}`
     res.send({
       response_type: 'in_channel',
@@ -59,11 +57,7 @@ export const editRammeHandler = async (req: Request, res: Response) => {
 const getNewActivity = (text: string) => {
   let activity
   try {
-    activity = text
-      .trim()
-      .split(' ')
-      .slice(2)
-      .join(' ')
+    activity = text.trim().split(' ').slice(2).join(' ')
   } catch (e) {}
 
   return activity

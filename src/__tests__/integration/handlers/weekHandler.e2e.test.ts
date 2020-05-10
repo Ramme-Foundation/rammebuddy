@@ -23,7 +23,7 @@ describe('command', () => {
       await getRepository(Activity).query(`DELETE FROM activity;`)
     })
 
-    it('returns a curated list of weekly activities', async done => {
+    it('returns a curated list of weekly activities', async (done) => {
       await getRepository(Activity).save([
         createActivityFixture({
           shortId: '123',
@@ -67,7 +67,7 @@ describe('command', () => {
       ])
       done()
     })
-    xit('returns only get activities from this week', async done => {
+    xit('returns only get activities from this week', async (done) => {
       await getRepository(Activity).save([
         createActivityFixture({
           shortId: '123',
@@ -113,7 +113,7 @@ describe('command', () => {
       done()
     })
 
-    it('can display specified week', async done => {
+    it('can display specified week', async (done) => {
       await getRepository(Activity).save([
         createActivityFixture({
           shortId: '123',

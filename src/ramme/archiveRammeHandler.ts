@@ -31,9 +31,7 @@ export const archiveRammeHandler = async (req: Request, res: Response) => {
   }
 
   try {
-    const repoRes = await getConnection()
-      .getRepository(Activity)
-      .remove(event)
+    const repoRes = await getConnection().getRepository(Activity).remove(event)
     const response = `Activity med id ${repoRes.shortId} deleted`
     res.send({
       response_type: 'in_channel',

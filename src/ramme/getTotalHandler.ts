@@ -23,7 +23,7 @@ export const getTotalHandler = async (res: Response) => {
 }
 
 const formatTotal = (total: TotalCount[]) => {
-  const totalStrings = total.map(row => {
+  const totalStrings = total.map((row) => {
     return `${row.username}: ${row.count}`
   })
   return totalStrings.join('\n')
