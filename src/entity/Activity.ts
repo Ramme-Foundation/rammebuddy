@@ -5,7 +5,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 
 @Entity()
 export class Activity {
