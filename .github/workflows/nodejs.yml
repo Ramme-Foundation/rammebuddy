@@ -12,7 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    variables:
+      DATABASE_TEST_URL: postgres://test:test@postgres:5432/test
+      CI: true
     services:
       postgres:
         image: postgres
@@ -42,9 +44,6 @@ jobs:
       - run: yarn install
       - run: yarn test:migrate
       - run: yarn test:ci
-        env:
-          DATABASE_TEST_URL: postgres://test:test@postgres:5432/test
-          CI: true
       - run: yarn lint
       - run: yarn build
       - name: Coveralls
