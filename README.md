@@ -2,42 +2,27 @@
 
 Slackbot for Ramme logging.
 
-For the uninitiated:
+## Installing
 
-This is an event-sourced bot to log and save training activities for an internal competition among a group of friends. It is written to display the capabilities of event sourcing.
+Run `yarn install` to install dependencies
 
-Tags:
+Make sure to have a postgres instance running. Perhaps with docker. Set the following variables in `.env` file
 
-### Dev env
-
-Prereqs:
-
-- nodejs
-- docker
-- docker-compose
-
-First time:
-
-Download yarn if not available.
-
-```sh
-npm i -g yarn
+```
+DATABASE_URL=postgres://username:password@localhost:5432/rammebuddy
 ```
 
-Start the developer environment by running
+Then run migrations (these needs to be run every time you add a migration )
 
-```sh
-docker-compose up -d
-yarn
-yarn dev
+`yarn typeorm migration:run`
+
+### Running tests
+
+To be able to run e2e locally you need a database setup. Create one i postgres called "rammebuddy-test" and set these environment variables in `.env` file.
+
 ```
-
-### Deployment
-
-Compile and dockerize a production-grade container
-
-```sh
-docker build -t rammebuddy .
+DATABASE_TEST_URL=postgres://username:password@localhost:5432/rammebuddy-test
+DATABASE_DISABLE_SSL=true
 ```
 
 ### Add a dump into docker postgres

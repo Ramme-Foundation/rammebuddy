@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_TEST_URL: postgres://test:test@localhost:5432/test
+      DATABASE_DISABLE_SSL: true
       CI: true
     services:
       postgres:
