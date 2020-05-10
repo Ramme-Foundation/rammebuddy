@@ -4,6 +4,7 @@
   "main": "service.ts",
   "license": "MIT",
   "scripts": {
+    "start": "node dist/src/server.js",
     "test": "jest",
     "test:ci": "jest --coverage",
     "watch": "jest --watchAll",
