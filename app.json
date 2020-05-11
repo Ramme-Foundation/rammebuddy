@@ -1,0 +1,15 @@
+{
+    "name": "Rammebuddy",
+    "description": "Rammebuddy app",
+    "success_url": "/",
+    "image": "heroku/ruby",
+    "addons": [
+        "papertrail",
+        {
+            "plan": "heroku-postgresql",
+            "options": {
+                "version": "9.5"
+            }
+        }
+    ]
+}

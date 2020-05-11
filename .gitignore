@@ -1,3 +1,5 @@
+coverage/
+.env
 dist
 node_modules
 infra/data
