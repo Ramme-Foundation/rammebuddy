@@ -13,7 +13,7 @@ export default (
     process.env.NODE_ENV === 'development'
       ? [path.resolve(__dirname, '../entity/*.ts')]
       : [path.resolve(__dirname, '../../dist/src/entity/*.js')]
-  logger.info('loading entities from ', entitiesPath[0])
+  logger.info(`loading entities from ${entitiesPath.join(',')}`)
   const connection = createConnection(<ConnectionOptions>{
     type: 'postgres',
     // We need add the extra SSL to use heroku on localhost
