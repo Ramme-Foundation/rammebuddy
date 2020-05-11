@@ -17,7 +17,10 @@ export default (
         forceDisableSSL || isDevMode() ? false : { rejectUnauthorized: false },
     },
     url: databaseUrl,
-    entities: [path.resolve(__dirname, '../entity/*.ts')],
+    entities:
+      process.env.NODE_ENV === 'development'
+        ? [path.resolve(__dirname, '../entity/*.ts')]
+        : [path.resolve(__dirname, '../../dist/src/entity/*.ts')],
     subscribers: [],
     logging: process.env.NODE_ENV === 'development',
   })
