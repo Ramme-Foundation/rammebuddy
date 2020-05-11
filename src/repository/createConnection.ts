@@ -20,7 +20,7 @@ export default (
     entities:
       process.env.NODE_ENV === 'development'
         ? [path.resolve(__dirname, '../entity/*.ts')]
-        : [path.resolve(__dirname, '../../dist/src/entity/*.ts')],
+        : [path.resolve(__dirname, '../../dist/src/entity/*.js')],
     subscribers: [],
     logging: process.env.NODE_ENV === 'development',
   })
