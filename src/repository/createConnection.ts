@@ -12,7 +12,7 @@ export default (
   const entitiesPath =
     process.env.NODE_ENV === 'development'
       ? [path.resolve(__dirname, '../entity/*.ts')]
-      : [path.resolve(__dirname, '../../dist/src/entity/*.js')]
+      : [path.resolve(__dirname, '../entity/*.js')]
   logger.info(`loading entities from ${entitiesPath.join(',')}`)
   const connection = createConnection(<ConnectionOptions>{
     type: 'postgres',
