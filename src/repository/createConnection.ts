@@ -10,9 +10,9 @@ export default (
 ) => {
   logger.info(`(DATABASE) Connecting to database`)
   const entitiesPath =
-    process.env.NODE_ENV === 'development'
-      ? [path.resolve(__dirname, '../entity/*.ts')]
-      : [path.resolve(__dirname, '../entity/*.js')]
+    process.env.NODE_ENV === 'production'
+      ? [path.resolve(__dirname, '../entity/*.js')]
+      : [path.resolve(__dirname, '../entity/*.ts')]
   logger.info(`loading entities from ${entitiesPath.join(',')}`)
   const connection = createConnection(<ConnectionOptions>{
     type: 'postgres',
