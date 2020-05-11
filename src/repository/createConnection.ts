@@ -9,6 +9,11 @@ export default (
   forceDisableSSL = false,
 ) => {
   logger.info(`(DATABASE) Connecting to database`)
+  const entitiesPath =
+    process.env.NODE_ENV === 'development'
+      ? [path.resolve(__dirname, '../entity/*.ts')]
+      : [path.resolve(__dirname, '../../dist/src/entity/*.js')]
+  logger.info('loading entities from ', entitiesPath)
   const connection = createConnection(<ConnectionOptions>{
     type: 'postgres',
     // We need add the extra SSL to use heroku on localhost
@@ -17,10 +22,7 @@ export default (
         forceDisableSSL || isDevMode() ? false : { rejectUnauthorized: false },
     },
     url: databaseUrl,
-    entities:
-      process.env.NODE_ENV === 'development'
-        ? [path.resolve(__dirname, '../entity/*.ts')]
-        : [path.resolve(__dirname, '../../dist/src/entity/*.js')],
+    entities: entitiesPath,
     subscribers: [],
     logging: process.env.NODE_ENV === 'development',
   })
