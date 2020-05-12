@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-
+// @ts-ignore
+import * as AdminBroExpress from 'admin-bro-expressjs'
 import { logger } from './utils/logger'
 import { getByWeekHandler } from './ramme/getByWeekHandler'
 import { editRammeHandler } from './ramme/editRammeHandler'
@@ -10,17 +11,36 @@ import { getTotalHandler } from './ramme/getTotalHandler'
 import { addRammeHandler } from './ramme/addRammeHandler'
 import { commandParser } from './ramme/commandParser'
 import createConnection from './repository/createConnection'
+import admin from './admin'
 
 require('dotenv').config()
 
+const ADMIN = {
+  email: process.env.ADMIN_BRO_EMAIL || 'test@example.com',
+  password: process.env.ADMIN_BRO_PASSWORD || 'password',
+}
+
 export const getHttpServer = async () => {
-  await createConnection(
+  const connection = await createConnection(
     process.env.DATABASE_URL,
     Boolean(process.env.DATABASE_DISABLE_SSL),
   )
   logger.info(`Starting in mode: ${process.env.NODE_ENV}`)
 
   const app = express()
+
+  const adminBro = admin(connection)
+  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email: string, password: string) => {
+      if (ADMIN.password === password && ADMIN.email === email) {
+        return ADMIN
+      }
+      return null
+    },
+    cookieName: 'adminbro',
+    cookiePassword: 'somePassword',
+  })
+  app.use(adminBro.options.rootPath, router)
 
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))

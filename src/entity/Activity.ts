@@ -4,11 +4,12 @@ import {
   Column,
   BeforeInsert,
   BeforeUpdate,
+  BaseEntity,
 } from 'typeorm'
 import { nanoid } from 'nanoid'
 
 @Entity()
-export class Activity {
+export class Activity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
