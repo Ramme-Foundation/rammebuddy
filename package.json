@@ -18,7 +18,6 @@
     "build": "tsc",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "heroku-postbuild": "yarn run build && yarn run typeorm migration:run",
-    "test:create": "./scripts/createdb.sh rammebuddy-test",
     "test:migrate": "cross-env CI=true yarn typeorm schema:sync"
   },
   "jest": {
@@ -50,6 +49,10 @@
     "@types/node": "13.13.5",
     "@types/pg": "7.14.3",
     "@types/pino": "6.0.1",
+    "@types/react-redux": "7.1.8",
+    "@types/react-router": "5.1.7",
+    "@types/styled-components": "5.1.0",
+    "@types/styled-system": "5.1.9",
     "@types/supertest": "2.0.9",
     "@types/uuid": "7.0.3",
     "@typescript-eslint/eslint-plugin": "2.32.0",
@@ -77,9 +80,15 @@
     "yorkie": "2.0.0"
   },
   "dependencies": {
+    "admin-bro": "2.3.1",
+    "admin-bro-expressjs": "2.0.5",
+    "admin-bro-typeorm": "0.1.6-alpha.9",
     "body-parser": "^1.19.0",
+    "class-validator": "0.12.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-formidable": "1.2.0",
+    "express-session": "1.17.1",
     "lodash": "4.17.15",
     "moment": "2.25.3",
     "nanoid": "3.1.7",

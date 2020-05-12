@@ -8,6 +8,10 @@
       "./node_modules/@types",
       "./typings"
     ],
+    "types": [
+      "react",
+      "jest"
+    ],
     "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */
