@@ -15,6 +15,11 @@ import admin from './admin'
 
 require('dotenv').config()
 
+const ADMIN = {
+  email: process.env.ADMIN_BRO_EMAIL || 'test@example.com',
+  password: process.env.ADMIN_BRO_PASSWORD || 'password',
+}
+
 export const getHttpServer = async () => {
   const connection = await createConnection(
     process.env.DATABASE_URL,
@@ -24,12 +29,21 @@ export const getHttpServer = async () => {
 
   const app = express()
 
+  const adminBro = admin(connection)
+  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email: string, password: string) => {
+      if (ADMIN.password === password && ADMIN.email === email) {
+        return ADMIN
+      }
+      return null
+    },
+    cookieName: 'adminbro',
+    cookiePassword: 'somePassword',
+  })
+  app.use(adminBro.options.rootPath, router)
+
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-
-  const adminBro = admin(connection)
-  const router = AdminBroExpress.buildRouter(adminBro)
-  app.use(adminBro.options.rootPath, router)
 
   app.get('/', async (_req, res) => res.send(`Ramme Buddy 0.0.1: OK`))
 
