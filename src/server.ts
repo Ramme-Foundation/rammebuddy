@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-
+// @ts-ignore
+import * as AdminBroExpress from 'admin-bro-expressjs'
 import { logger } from './utils/logger'
 import { getByWeekHandler } from './ramme/getByWeekHandler'
 import { editRammeHandler } from './ramme/editRammeHandler'
@@ -10,11 +11,12 @@ import { getTotalHandler } from './ramme/getTotalHandler'
 import { addRammeHandler } from './ramme/addRammeHandler'
 import { commandParser } from './ramme/commandParser'
 import createConnection from './repository/createConnection'
+import admin from './admin'
 
 require('dotenv').config()
 
 export const getHttpServer = async () => {
-  await createConnection(
+  const connection = await createConnection(
     process.env.DATABASE_URL,
     Boolean(process.env.DATABASE_DISABLE_SSL),
   )
@@ -24,6 +26,10 @@ export const getHttpServer = async () => {
 
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+
+  const adminBro = admin(connection)
+  const router = AdminBroExpress.buildRouter(adminBro)
+  app.use(adminBro.options.rootPath, router)
 
   app.get('/', async (_req, res) => res.send(`Ramme Buddy 0.0.1: OK`))
 

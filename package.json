@@ -18,7 +18,6 @@
     "build": "tsc",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "heroku-postbuild": "yarn run build && yarn run typeorm migration:run",
-    "test:create": "./scripts/createdb.sh rammebuddy-test",
     "test:migrate": "cross-env CI=true yarn typeorm schema:sync"
   },
   "jest": {
@@ -77,9 +76,14 @@
     "yorkie": "2.0.0"
   },
   "dependencies": {
+    "admin-bro": "2.3.1",
+    "admin-bro-expressjs": "2.0.5",
+    "admin-bro-typeorm": "0.1.6-alpha.9",
     "body-parser": "^1.19.0",
+    "class-validator": "0.12.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-formidable": "1.2.0",
     "lodash": "4.17.15",
     "moment": "2.25.3",
     "nanoid": "3.1.7",
