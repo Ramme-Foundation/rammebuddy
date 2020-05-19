@@ -97,6 +97,6 @@
     "pino-pretty": "4.0.0",
     "reflect-metadata": "0.1.13",
     "tsconfig-paths": "3.9.0",
-    "typeorm": "0.2.24"
+    "typeorm": "0.2.25"
   }
 }
