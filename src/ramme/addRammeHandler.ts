@@ -3,6 +3,7 @@ import { getConnection } from 'typeorm'
 import { logger } from '../utils/logger'
 import { Activity } from '../entity/Activity'
 import { parseActivity, ParsedActivity } from '../utils/parseActivity'
+import { SlackUser } from '../entity/SlackUser'
 
 export const addRammeHandler = async (req: Request, res: Response) => {
   let activity: ParsedActivity | null = null
@@ -21,6 +22,19 @@ export const addRammeHandler = async (req: Request, res: Response) => {
   ramme.name = activity.message
   ramme.week = activity.week
   ramme.username = req.body.user_name
+
+  // Lets create slack users so we later can migrate them all
+  const slackUser = await getConnection()
+    .getRepository(SlackUser)
+    .find({ username: ramme.username, teamId: req.body.team_id })
+  if (!slackUser) {
+    const slackUser = new SlackUser()
+    slackUser.username = ramme.username
+    slackUser.teamId = req.body.team_id
+    slackUser.slackId = req.body.user_id
+
+    await getConnection().getRepository(SlackUser).save(slackUser)
+  }
 
   try {
     const createdActivity = await getConnection()
