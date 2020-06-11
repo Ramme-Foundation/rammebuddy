@@ -10,8 +10,11 @@ export class StravaApi {
     });
   }
 
-  oauthUrl() {
-    return strava.oauth.getRequestAccessURL({ scope: 'activity:read_all' });
+  oauthUrl(userId: string) {
+    return strava.oauth.getRequestAccessURL({
+      state: userId,
+      scope: 'activity:read_all',
+    });
   }
 
   async verifyOauth(code: string) {

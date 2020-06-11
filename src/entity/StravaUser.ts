@@ -5,8 +5,8 @@ import {
   BeforeUpdate,
   BaseEntity,
   Column,
-  ManyToOne,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { User } from './User';
 
@@ -14,6 +14,9 @@ import { User } from './User';
 export class StravaUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
+
+  @Column()
+  stravaId!: string;
 
   @Column()
   refreshToken!: string;
@@ -29,6 +32,10 @@ export class StravaUser extends BaseEntity {
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
+
+  @OneToOne((type) => User)
+  @JoinColumn()
+  user?: User;
 
   @BeforeInsert()
   createTimestamps() {

@@ -6,6 +6,7 @@ import {
   BaseEntity,
   Column,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { User } from './User';
 
@@ -24,6 +25,7 @@ export class SlackUser extends BaseEntity {
   teamId!: string;
 
   @ManyToOne((type) => User, (user) => user.slackUsers)
+  @JoinColumn({ name: 'userId' })
   user!: User;
 
   @Column({ name: 'updated_at' })

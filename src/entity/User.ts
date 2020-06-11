@@ -27,10 +27,6 @@ export class User extends BaseEntity {
   @Column({ name: 'created_at' })
   createdAt!: Date;
 
-  @OneToOne((type) => StravaUser)
-  @JoinColumn()
-  stravaUser?: StravaUser;
-
   @OneToMany((type) => SlackUser, (slackUser) => slackUser.user)
   slackUsers!: SlackUser[];
 

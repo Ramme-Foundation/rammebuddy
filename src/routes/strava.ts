@@ -1,20 +1,54 @@
 import express from 'express';
 import { StravaApi } from '../apis/strava/StravaApi';
 import { logger } from '../utils/logger';
+import { getRepository } from 'typeorm';
+import { StravaUser } from '../entity/StravaUser';
+import { User } from '../entity/User';
 
 const api = new StravaApi();
-
-const oauthPath = async (_req: express.Request, res: express.Response) => {
-  const url = await api.oauthUrl();
-  res.send(url);
-};
 
 const oauthCallbackPath = async (
   req: express.Request,
   res: express.Response,
 ) => {
+  const userId = req.query.state as string;
+  if (!userId) {
+    res.status(400).send('Could not connect account to user');
+    return;
+  }
+
+  const userRepo = getRepository(User);
+  const user = await userRepo.findOne({ id: userId });
+  if (!user) {
+    res.status(400).send('Could not find user account to connect');
+    return;
+  }
   const resp = await api.verifyOauth(req.query.code as string);
-  res.send(`Ramme Buddy callback! ${JSON.stringify(resp)}`);
+  console.log('RESP', resp);
+  const stravaRepo = getRepository(StravaUser);
+  const stravaUser = await stravaRepo.findOne({
+    stravaId: resp.athlete.id,
+  });
+  if (stravaUser) {
+    stravaUser.user = user;
+    stravaUser.accessToken = resp.access_token;
+    stravaUser.refreshToken = resp.refresh_token;
+    stravaUser.expiresAt = new Date(resp.expires_at * 1000); // Convert from unix time
+    stravaRepo.save(stravaUser);
+  } else {
+    const sUser = stravaRepo.create({
+      user: user,
+      stravaId: resp.athlete.id,
+      accessToken: resp.access_token,
+      refreshToken: resp.refresh_token,
+      expiresAt: new Date(resp.expires_at * 1000), // Convert from unix time
+    });
+    stravaRepo.save(sUser);
+  }
+
+  // TODO Map to stravaUser and add slack stravaUser to that as well
+
+  res.send(`Authenticated with Strava! You can now close this window`);
 };
 
 const createSubscription = async (
@@ -75,7 +109,6 @@ const subscriptionHandler = async (
 };
 
 export const registerStravaRoutes = (app: express.Express) => {
-  app.get('/strava/oauth', oauthPath);
   app.get('/strava/oauth/callback', oauthCallbackPath);
   app.get('/strava/subscribe', createSubscription);
   app.get('/strava/subscriptions', verifySubscription);

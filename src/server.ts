@@ -13,6 +13,8 @@ import { commandParser } from './ramme/commandParser';
 import createConnection from './repository/createConnection';
 import admin from './admin';
 import { registerStravaRoutes } from './routes/strava';
+import { SlackBot } from './apis/slack/SlackBot';
+
 require('dotenv').config();
 
 const ADMIN = {
@@ -28,7 +30,7 @@ export const getHttpServer = async () => {
   logger.info(`Starting in mode: ${process.env.NODE_ENV}`);
 
   const app = express();
-
+  const slackBot = new SlackBot();
   const adminBro = admin(connection);
   const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
     authenticate: async (email: string, password: string) => {
@@ -42,7 +44,8 @@ export const getHttpServer = async () => {
   });
 
   app.use(adminBro.options.rootPath, router);
-
+  // NEEDS TO BE BEFORE BODY-PARSER
+  app.use('/slack/bot', slackBot.requestListener());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
