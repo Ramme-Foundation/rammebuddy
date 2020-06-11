@@ -5,34 +5,30 @@ import {
   BeforeUpdate,
   BaseEntity,
   Column,
-  OneToMany,
+  ManyToOne,
   OneToOne,
-  JoinColumn,
 } from 'typeorm';
-import { SlackUser } from './SlackUser';
-import { StravaUser } from './StravaUser';
-import { Strava } from 'strava-v3';
+import { User } from './User';
 
 @Entity()
-export class User extends BaseEntity {
+export class StravaUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
-  stravaId!: string;
+  refreshToken!: string;
+
+  @Column()
+  accessToken!: string;
+
+  @Column({ name: 'expires_at' })
+  expiresAt!: Date;
 
   @Column({ name: 'updated_at' })
   updatedAt!: Date;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
-
-  @OneToOne((type) => StravaUser)
-  @JoinColumn()
-  stravaUser?: StravaUser;
-
-  @OneToMany((type) => SlackUser, (slackUser) => slackUser.user)
-  slackUsers!: SlackUser[];
 
   @BeforeInsert()
   createTimestamps() {
