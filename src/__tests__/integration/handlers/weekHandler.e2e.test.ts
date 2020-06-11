@@ -1,27 +1,27 @@
-import supertest from 'supertest'
-import { Server } from 'http'
-import { getHttpServer } from '../../../server'
-import { getRepository, getConnection } from 'typeorm'
-import { Activity } from '../../../entity/Activity'
-import { getCurrentWeekNumber } from '../../../utils/getCurrentWeekNumber'
-import { createActivityFixture } from '../../fixtures/activity'
+import supertest from 'supertest';
+import { Server } from 'http';
+import { getHttpServer } from '../../../server';
+import { getRepository, getConnection } from 'typeorm';
+import { Activity } from '../../../entity/Activity';
+import { getCurrentWeekNumber } from '../../../utils/getCurrentWeekNumber';
+import { createActivityFixture } from '../../fixtures/activity';
 
-let app: Server
+let app: Server;
 
 describe('command', () => {
   describe('week', () => {
     beforeAll(async () => {
-      app = await getHttpServer()
-    })
+      app = await getHttpServer();
+    });
 
     afterAll(() => {
-      getConnection().close()
-      app.close()
-    })
+      getConnection().close();
+      app.close();
+    });
 
     afterEach(async () => {
-      await getRepository(Activity).query(`DELETE FROM activity;`)
-    })
+      await getRepository(Activity).query(`DELETE FROM activity;`);
+    });
 
     it('returns a curated list of weekly activities', async (done) => {
       await getRepository(Activity).save([
@@ -40,15 +40,15 @@ describe('command', () => {
           username: 'testing',
           name: 'running',
         }),
-      ])
+      ]);
 
       const { body } = await supertest
         .agent(app)
         .post('/ramme')
         .send({ text: 'week' })
-        .set('Accept', 'application/json')
+        .set('Accept', 'application/json');
 
-      expect(body.response_type).toEqual('in_channel')
+      expect(body.response_type).toEqual('in_channel');
       expect(body.blocks).toEqual([
         {
           text: {
@@ -64,9 +64,9 @@ describe('command', () => {
           },
           type: 'section',
         },
-      ])
-      done()
-    })
+      ]);
+      done();
+    });
     it('returns only get activities from this week', async (done) => {
       await getRepository(Activity).save([
         createActivityFixture({
@@ -85,15 +85,15 @@ describe('command', () => {
           username: 'testing',
           name: 'running',
         }),
-      ])
+      ]);
 
       const { body } = await supertest
         .agent(app)
         .post('/ramme')
         .set('Accept', 'application/json')
-        .send({ text: 'week' })
+        .send({ text: 'week' });
 
-      expect(body.response_type).toEqual('in_channel')
+      expect(body.response_type).toEqual('in_channel');
       expect(body.blocks).toEqual([
         {
           text: {
@@ -109,9 +109,9 @@ describe('command', () => {
           },
           type: 'section',
         },
-      ])
-      done()
-    })
+      ]);
+      done();
+    });
 
     it('can display specified week', async (done) => {
       await getRepository(Activity).save([
@@ -126,14 +126,14 @@ describe('command', () => {
           username: 'testing-2',
           name: 'running',
         }),
-      ])
+      ]);
 
       const { body } = await supertest
         .agent(app)
         .post('/ramme')
-        .send({ text: 'week 80' })
+        .send({ text: 'week 80' });
 
-      expect(body.response_type).toEqual('in_channel')
+      expect(body.response_type).toEqual('in_channel');
       expect(body.blocks).toEqual([
         {
           text: {
@@ -142,8 +142,8 @@ describe('command', () => {
           },
           type: 'section',
         },
-      ])
-      done()
-    })
-  })
-})
+      ]);
+      done();
+    });
+  });
+});

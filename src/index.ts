@@ -1,3 +1,3 @@
-import { getHttpServer } from './server'
+import { getHttpServer } from './server';
 
-getHttpServer()
+getHttpServer();

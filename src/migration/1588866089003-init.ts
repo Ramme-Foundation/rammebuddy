@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm'
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class init1588866089003 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -14,10 +14,10 @@ export class init1588866089003 implements MigrationInterface {
             "data" JSONB,
             CONSTRAINT "events_pk" PRIMARY KEY ("id","week","version","event")
           );
-        `)
+        `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    queryRunner.query('DROP TABLE events')
+    queryRunner.query('DROP TABLE events');
   }
 }

@@ -1,40 +1,38 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
   BeforeInsert,
   BeforeUpdate,
   BaseEntity,
+  Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
-import { nanoid } from 'nanoid';
+import { User } from './User';
 
 @Entity()
-export class Activity extends BaseEntity {
+export class SlackUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column('int')
-  week!: number;
+  @Column()
+  slackId!: string;
 
   @Column()
   username!: string;
 
   @Column()
-  name!: string;
+  teamId!: string;
 
-  @Column({ name: 'short_id' })
-  shortId!: string;
+  @ManyToOne((type) => User, (user) => user.slackUsers)
+  @JoinColumn({ name: 'userId' })
+  user!: User;
 
   @Column({ name: 'updated_at' })
   updatedAt!: Date;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
-
-  @BeforeInsert()
-  updateShortId() {
-    this.shortId = nanoid(8);
-  }
 
   @BeforeInsert()
   createTimestamps() {

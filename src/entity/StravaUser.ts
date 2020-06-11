@@ -1,29 +1,31 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
   BeforeInsert,
   BeforeUpdate,
   BaseEntity,
+  Column,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
-import { nanoid } from 'nanoid';
+import { User } from './User';
 
 @Entity()
-export class Activity extends BaseEntity {
+export class StravaUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column('int')
-  week!: number;
+  @Column()
+  stravaId!: string;
 
   @Column()
-  username!: string;
+  refreshToken!: string;
 
   @Column()
-  name!: string;
+  accessToken!: string;
 
-  @Column({ name: 'short_id' })
-  shortId!: string;
+  @Column({ name: 'expires_at' })
+  expiresAt!: Date;
 
   @Column({ name: 'updated_at' })
   updatedAt!: Date;
@@ -31,10 +33,9 @@ export class Activity extends BaseEntity {
   @Column({ name: 'created_at' })
   createdAt!: Date;
 
-  @BeforeInsert()
-  updateShortId() {
-    this.shortId = nanoid(8);
-  }
+  @OneToOne((type) => User)
+  @JoinColumn()
+  user?: User;
 
   @BeforeInsert()
   createTimestamps() {

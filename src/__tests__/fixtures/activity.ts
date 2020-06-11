@@ -1,5 +1,5 @@
-import { Activity } from '../../entity/Activity'
-import { getCurrentWeekNumber } from '../../utils'
+import { Activity } from '../../entity/Activity';
+import { getCurrentWeekNumber } from '../../utils';
 
 const DEFAULT_DATA: Partial<Activity> = {
   shortId: 'shortid',
@@ -8,11 +8,11 @@ const DEFAULT_DATA: Partial<Activity> = {
   week: getCurrentWeekNumber(),
   createdAt: new Date(),
   updatedAt: new Date(),
-}
+};
 
 export const createActivityFixture = (data: Partial<Activity>) => {
   return {
     ...DEFAULT_DATA,
     ...data,
-  }
-}
+  };
+};
