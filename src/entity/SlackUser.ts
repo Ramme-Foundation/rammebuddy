@@ -6,41 +6,41 @@ import {
   BaseEntity,
   Column,
   ManyToOne,
-} from 'typeorm'
-import { User } from './User'
+} from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class SlackUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id!: string
+  id!: string;
 
   @Column()
-  slackId!: string
+  slackId!: string;
 
   @Column()
-  username!: string
+  username!: string;
 
   @Column()
-  teamId!: string
+  teamId!: string;
 
   @ManyToOne((type) => User, (user) => user.slackUsers)
-  user!: User
+  user!: User;
 
   @Column({ name: 'updated_at' })
-  updatedAt!: Date
+  updatedAt!: Date;
 
   @Column({ name: 'created_at' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @BeforeInsert()
   createTimestamps() {
-    const date = new Date()
-    this.updatedAt = date
-    this.createdAt = date
+    const date = new Date();
+    this.updatedAt = date;
+    this.createdAt = date;
   }
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt = new Date()
+    this.updatedAt = new Date();
   }
 }

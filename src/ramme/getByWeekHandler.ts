@@ -1,26 +1,26 @@
-import { getCurrentWeekNumber } from '../utils'
-import { Request, Response } from 'express'
-import { getConnection } from 'typeorm'
-import { Activity } from '../entity/Activity'
-import groupByUsername, { Dictionary } from '../utils/groupByUsername'
+import { getCurrentWeekNumber } from '../utils';
+import { Request, Response } from 'express';
+import { getConnection } from 'typeorm';
+import { Activity } from '../entity/Activity';
+import groupByUsername, { Dictionary } from '../utils/groupByUsername';
 
 export const getByWeekHandler = async (req: Request, res: Response) => {
-  const week = getWeekInMessage(req.body.text)
+  const week = getWeekInMessage(req.body.text);
   const events = await getConnection()
     .getRepository(Activity)
-    .find({ where: `week = ${week}` })
+    .find({ where: `week = ${week}` });
 
-  const formattedWeek = formatWeek(groupByUsername(events))
+  const formattedWeek = formatWeek(groupByUsername(events));
 
   res.send({
     response_type: 'in_channel',
     blocks: formattedWeek,
-  })
-}
+  });
+};
 
 const formatWeek = (week: Dictionary<Activity[]>) => {
   const warriors = Object.keys(week).map((committer) => {
-    const activities = week[committer]
+    const activities = week[committer];
     return {
       type: 'section',
       text: {
@@ -29,22 +29,22 @@ const formatWeek = (week: Dictionary<Activity[]>) => {
           .map((a) => a.name)
           .join(', ')}`,
       },
-    }
-  })
-  return warriors
-}
+    };
+  });
+  return warriors;
+};
 
 const getWeekInMessage = (text: string) => {
-  let week = getCurrentWeekNumber()
+  let week = getCurrentWeekNumber();
 
-  if (!text) return week
+  if (!text) return week;
 
-  const parts = text.split(' ')
+  const parts = text.split(' ');
   if (parts.length === 2) {
     try {
-      week = parseInt(parts[1])
+      week = parseInt(parts[1]);
     } catch (error) {}
   }
 
-  return week
-}
+  return week;
+};

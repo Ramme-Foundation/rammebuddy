@@ -5,46 +5,46 @@ import {
   BeforeInsert,
   BeforeUpdate,
   BaseEntity,
-} from 'typeorm'
-import { nanoid } from 'nanoid'
+} from 'typeorm';
+import { nanoid } from 'nanoid';
 
 @Entity()
 export class Activity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id!: string
+  id!: string;
 
   @Column('int')
-  week!: number
+  week!: number;
 
   @Column()
-  username!: string
+  username!: string;
 
   @Column()
-  name!: string
+  name!: string;
 
   @Column({ name: 'short_id' })
-  shortId!: string
+  shortId!: string;
 
   @Column({ name: 'updated_at' })
-  updatedAt!: Date
+  updatedAt!: Date;
 
   @Column({ name: 'created_at' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @BeforeInsert()
   updateShortId() {
-    this.shortId = nanoid(8)
+    this.shortId = nanoid(8);
   }
 
   @BeforeInsert()
   createTimestamps() {
-    const date = new Date()
-    this.updatedAt = date
-    this.createdAt = date
+    const date = new Date();
+    this.updatedAt = date;
+    this.createdAt = date;
   }
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt = new Date()
+    this.updatedAt = new Date();
   }
 }

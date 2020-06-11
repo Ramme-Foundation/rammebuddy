@@ -1,13 +1,13 @@
-import AdminBro from 'admin-bro'
-import { Activity } from './entity/Activity'
-import { Database, Resource } from 'admin-bro-typeorm'
-import { validate } from 'class-validator'
-import { Connection } from 'typeorm'
+import AdminBro from 'admin-bro';
+import { Activity } from './entity/Activity';
+import { Database, Resource } from 'admin-bro-typeorm';
+import { validate } from 'class-validator';
+import { Connection } from 'typeorm';
 
-AdminBro.registerAdapter({ Database, Resource })
-Resource.validate = validate
+AdminBro.registerAdapter({ Database, Resource });
+Resource.validate = validate;
 export default (connection: Connection) => {
-  Activity.useConnection(connection)
+  Activity.useConnection(connection);
   return new AdminBro({
     resources: [
       {
@@ -20,5 +20,5 @@ export default (connection: Connection) => {
       softwareBrothers: false,
     },
     rootPath: '/admin',
-  })
-}
+  });
+};

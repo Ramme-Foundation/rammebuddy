@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 
 export const helpRammeHandler = async (_req: Request, res: Response) => {
   try {
@@ -11,13 +11,13 @@ export const helpRammeHandler = async (_req: Request, res: Response) => {
 
     -'/ramme archive <id>' to archive an activity with id: <id>
 
-    -'/ramme total' to see total activities`
+    -'/ramme total' to see total activities`;
 
     res.send({
       response_type: 'ephemeral',
       text: response,
-    })
+    });
   } catch (e) {
-    res.status(401).send('Could not help ramme')
+    res.status(401).send('Could not help ramme');
   }
-}
+};
