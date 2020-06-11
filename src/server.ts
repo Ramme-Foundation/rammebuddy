@@ -12,7 +12,7 @@ import { addRammeHandler } from './ramme/addRammeHandler';
 import { commandParser } from './ramme/commandParser';
 import createConnection from './repository/createConnection';
 import admin from './admin';
-
+import { registerStravaRoutes } from './routes/strava';
 require('dotenv').config();
 
 const ADMIN = {
@@ -40,12 +40,15 @@ export const getHttpServer = async () => {
     cookieName: 'adminbro',
     cookiePassword: 'somePassword',
   });
+
   app.use(adminBro.options.rootPath, router);
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.get('/', async (_req, res) => res.send(`Ramme Buddy 0.0.1: OK`));
+
+  registerStravaRoutes(app);
 
   app.post('/ramme', async (req, res) => {
     const message = req.body.text;
