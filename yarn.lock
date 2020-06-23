@@ -1766,10 +1766,10 @@ acorn@^7.1.0, acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
-admin-bro-expressjs@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/admin-bro-expressjs/-/admin-bro-expressjs-2.0.5.tgz#031f615eb22af2b7a9d666f1a576df62cda0e1fa"
-  integrity sha512-I0m6S4LaO1v32O7tGY+zMjD04lXxkQnBTFohvQAHttz6wUB7rbqHaK9bU3b2omh2EWsuOkgc17BBAIxpgLi3aQ==
+admin-bro-expressjs@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/admin-bro-expressjs/-/admin-bro-expressjs-2.1.1.tgz#2b6c68eee2e522c57cc293c5e367fa477d907afb"
+  integrity sha512-xTGmyqT+HvSIy4DLLET9JSvEMt1KrbDIbcZ0H6VgO+l6i8vbcmR1T+k1efx9TXfMZCIMOhUwIS2u4ja4iQMH1Q==
 
 admin-bro-typeorm@0.1.6-alpha.9:
   version "0.1.6-alpha.9"
