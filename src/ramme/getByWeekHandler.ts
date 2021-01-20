@@ -8,7 +8,9 @@ export const getByWeekHandler = async (req: Request, res: Response) => {
   const week = getWeekInMessage(req.body.text)
   const events = await getConnection()
     .getRepository(Activity)
-    .find({ where: `week = ${week}` })
+    .query(
+      `SELECT * from activity WHERE week=${week} AND DATE_TRUNC('year', created_at) = DATE_TRUNC('year', now())`,
+    )
 
   const formattedWeek = formatWeek(groupByUsername(events))
 
